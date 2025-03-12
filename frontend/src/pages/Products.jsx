@@ -2,15 +2,24 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../slices/productsSlice";
 import { FaRegHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { addToCart } from "../slices/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products, status, error } = useSelector((state) => state.products);
   console.log(products);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  const handleAdd = (product) => {
+    dispatch(addToCart(product));
+    navigate("/cart");
+  };
 
   return (
     <div className="container">
@@ -133,17 +142,33 @@ const Products = () => {
 
                   <div
                     className="card-img-overlay p-2 d-flex justify-content-end"
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", pointerEvents: "none" }}
                   >
-                    <h5 className="card-title text-black rounded py-2 px-2 d-inline-block">
-                      <FaRegHeart size={20}  style={{cursor: "pointer"}}/>{" "}
+                    <h5
+                      className="card-title text-black rounded py-2 px-2 d-inline-block"
+                      style={{ pointerEvents: "auto", cursor: "pointer" }}
+                    >
+                      <FaRegHeart size={20} style={{ cursor: "pointer" }} />{" "}
                     </h5>
                   </div>
 
                   <div className="card-body text-center">
-                    <h6>{product.name}</h6>
-                    <p className="fw-bold">₹{product.price}</p>
-                    <button className="btn btn-primary w-100">
+                    <Link
+                      to={`/products/${product._id}`}
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      <h6 className="fw-bold">{product.name}</h6>
+                    </Link>
+                    <Link
+                      to={`/products/${product._id}`}
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      <p className="fw-bold">₹{product.price}</p>
+                    </Link>
+                    <button
+                      className="btn btn-primary w-100"
+                      onClick={() => handleAdd(product)}
+                    >
                       Add to Cart
                     </button>
                   </div>
