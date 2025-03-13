@@ -10,7 +10,7 @@ import { addToWishlist } from "../slices/wishSlice";
 const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  
   const { products, status, error } = useSelector((state) => state.products);
   console.log(products);
 
@@ -29,7 +29,7 @@ const Products = () => {
     navigate("/wishlist");
   };
 
-  const filteredProducts = products.filter((prod) => prod.name.toLowerCase().includes(search.toLowerCase()));
+ 
 
   return (
     <div className="container">
