@@ -224,15 +224,16 @@
 
 // export default ProductDetails;
 
-
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchProducts } from "../slices/productsSlice";
 import { FaRegHeart, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
+import { addToCart } from "../slices/cartSlice";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products, status, error } = useSelector((state) => state.products);
   const { productId } = useParams();
   const product = products.find((prod) => prod._id === productId);
@@ -245,7 +246,7 @@ const ProductDetails = () => {
   const renderStars = (rating) => {
     const ratingValue = parseFloat(rating);
     const stars = [];
-    
+
     // Create 5 stars (filled, half-filled, or empty)
     for (let i = 1; i <= 5; i++) {
       if (i <= Math.floor(ratingValue)) {
@@ -259,13 +260,18 @@ const ProductDetails = () => {
         stars.push(<FaRegStar key={i} className="text-warning" />);
       }
     }
-    
+
     return stars;
   };
 
   if (!product) {
     return <p>Loading...</p>;
   }
+
+  const handleAdd = (product) => {
+    dispatch(addToCart(product));
+    navigate("/cart");
+  };
 
   return (
     <div className="container py-5">
@@ -302,7 +308,12 @@ const ProductDetails = () => {
 
               <p className="fw-bold">₹{product.price}</p>
 
-              <button className="btn btn-primary w-100">Add to Cart</button>
+              <button
+                onClick={() => handleAdd(product)}
+                className="btn btn-primary w-100"
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>
@@ -311,9 +322,7 @@ const ProductDetails = () => {
           {/* Modified to include stars with half-star support */}
           <div className="d-flex align-items-center mb-2">
             <p className="mb-0 me-2">{product.rating}</p>
-            <div className="d-flex">
-              {renderStars(product.rating)}
-            </div>
+            <div className="d-flex">{renderStars(product.rating)}</div>
           </div>
           <div className="d-flex gap-2">
             <h5>₹{product.price} </h5>
@@ -323,8 +332,14 @@ const ProductDetails = () => {
           </div>
           <span>{product.discount} off</span>
           <p className="mt-2">
-            <b>Quantity: </b>  <button className="btn btn-sm btn-outline-primary rounded-circle mx-2">-</button> {product.quantity}{" "}
-            <button className="btn btn-sm btn-outline-primary rounded-circle mx-2">+</button>
+            <b>Quantity: </b>{" "}
+            <button className="btn btn-sm btn-outline-primary rounded-circle mx-2">
+              -
+            </button>{" "}
+            {product.quantity}{" "}
+            <button className="btn btn-sm btn-outline-primary rounded-circle mx-2">
+              +
+            </button>
           </p>
           <span>Size: {product?.size?.join(" ")}</span>
 

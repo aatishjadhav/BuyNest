@@ -1,6 +1,6 @@
-import { FaRegHeart } from "react-icons/fa";
-import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
+import CartCount from "./CartCount";
+import WishlistCount from "./WishlistCount";
 
 const Header = () => {
   return (
@@ -41,12 +41,9 @@ const Header = () => {
             <Link className="btn btn-warning" to="/login">
               Login
             </Link>
-            <Link className="nav-link" to="/wishlist">
-              <FaRegHeart size={22} />
-            </Link>
-            <Link className="nav-link" to="/cart">
-              <MdOutlineShoppingCart size={26} /> Cart
-            </Link>
+
+            <WishlistCount />
+            <CartCount />
           </div>
         </div>
       </nav>

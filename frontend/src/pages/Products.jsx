@@ -1,14 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../slices/productsSlice";
 import { FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { addToWishlist } from "../slices/wishSlice";
 
 const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   const { products, status, error } = useSelector((state) => state.products);
   console.log(products);
 
@@ -20,6 +22,14 @@ const Products = () => {
     dispatch(addToCart(product));
     navigate("/cart");
   };
+
+  const handleAddToWishlist = (e, product) => {
+    e.stopPropagation(); // Prevent event bubbling
+    dispatch(addToWishlist(product));
+    navigate("/wishlist");
+  };
+
+  const filteredProducts = products.filter((prod) => prod.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="container">
@@ -140,17 +150,29 @@ const Products = () => {
                     />
                   </div>
 
-                  <div
+                  <div 
                     className="card-img-overlay p-2 d-flex justify-content-end"
-                    style={{ width: "100%", pointerEvents: "none" }}
+                    style={{ pointerEvents: "none" }}
                   >
-                    <h5
-                      className="card-title text-black rounded py-2 px-2 d-inline-block"
-                      style={{ pointerEvents: "auto", cursor: "pointer" }}
+                    <button
+                      onClick={(e) => handleAddToWishlist(e, product)}
+                      className="btn rounded-circle"
+                      style={{ 
+                        backgroundColor: "rgba(255, 255, 255, 0.8)", 
+                        width: "40px", 
+                        height: "40px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "none",
+                        pointerEvents: "auto"
+                      }}
                     >
-                      <FaRegHeart size={20} style={{ cursor: "pointer" }} />{" "}
-                    </h5>
+                      <FaRegHeart size={20} />
+                    </button>
                   </div>
+
+
 
                   <div className="card-body text-center">
                     <Link
