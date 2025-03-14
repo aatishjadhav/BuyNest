@@ -19,6 +19,7 @@ export const productsSlice = createSlice({
     filteredProducts: [],
     status: "idle",
     error: null,
+    searchQuery: "",
     filters: {
       rating: null,
       sortBy: null,
@@ -27,6 +28,10 @@ export const productsSlice = createSlice({
     },
   },
   reducers: {
+    filterBySearch: (state, action) => {
+      state.searchQuery = action.payload;
+      state.filteredProducts = state.products.filter(prod => prod.name.toLowerCase().includes(state.searchQuery));
+    },
     filterProducts: (state, action) => {
       let filtered = state.products;
 
