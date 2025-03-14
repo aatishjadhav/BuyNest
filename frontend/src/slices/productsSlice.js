@@ -16,10 +16,17 @@ export const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
+    filteredProducts: [],
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    filterBySearch: (state, action) => {
+      state.filteredProducts = state.products.filter((prod) =>
+        prod.name.toLowerCase().includes(action.payload.toLowerCase())
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       state.status = "loading";
@@ -27,6 +34,7 @@ export const productsSlice = createSlice({
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.status = "success";
       state.products = action.payload;
+      state.filteredProducts = action.payload;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.status = "failed";
@@ -34,5 +42,7 @@ export const productsSlice = createSlice({
     });
   },
 });
+
+export const { filterBySearch } = productsSlice.actions;
 
 export default productsSlice.reducer;

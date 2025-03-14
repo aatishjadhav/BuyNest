@@ -1,8 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartCount from "./CartCount";
 import WishlistCount from "./WishlistCount";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { filterBySearch } from "../slices/productsSlice";
 
 const Header = () => {
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = e.target.value;
+    setSearch(query);
+    dispatch(filterBySearch(query));
+  };
+
   return (
     <header className="container">
       <nav className="navbar navbar-expand-lg bg-white">
@@ -33,6 +46,8 @@ const Header = () => {
                 placeholder="Search products..."
                 aria-label="Search"
                 style={{ width: "100%" }}
+                value={search}
+                onChange={handleSearch}
               />
             </form>
           </div>

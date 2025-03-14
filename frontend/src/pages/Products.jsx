@@ -11,8 +11,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { products, status, error } = useSelector((state) => state.products);
-  console.log(products);
+  const { filteredProducts, products, status, error } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -29,7 +28,6 @@ const Products = () => {
     navigate("/wishlist");
   };
 
- 
 
   return (
     <div className="container">
@@ -129,12 +127,12 @@ const Products = () => {
         </div>
         <div className="col-md-9 col-lg-10 bg-light">
           <h5 className="fw-bold my-3">
-            Showing All Products ({products.length})
+            Showing All Products ({filteredProducts.length})
           </h5>
           {status === "loading" && <p>Loading...</p>}
           {error && <p>{error}</p>}
           <div className="row g-4">
-            {products.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <div className="col-md-4 mb-3" key={index}>
                 <div className="card">
                   <div style={{ backgroundColor: "light", padding: "20px" }}>
