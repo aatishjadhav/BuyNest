@@ -22,7 +22,7 @@ export const productsSlice = createSlice({
     filters: {
       rating: null,
       sortBy: null,
-      category: null,
+      category: [],
     },
   },
   reducers: {
@@ -34,9 +34,9 @@ export const productsSlice = createSlice({
           (product) => product.rating >= state.filters.rating
         );
       }
-      if (state.filters.category) {
+      if (state.filters.category.length > 0) {
         filtered = filtered.filter(
-          (product) => product.category === state.filters.category
+          (product) => state.filters.category.includes(product.category)
         );
       }
 

@@ -15,7 +15,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { filteredProducts, products, status, error } = useSelector(
+  const { filteredProducts, products, status, error, filters } = useSelector(
     (state) => state.products
   );
 
@@ -45,8 +45,14 @@ const Products = () => {
     dispatch(filterProducts());
   };
 
+  // const handleCategory = (event) => {
+  //   dispatch(setFilters({ category: event.target.value }));
+  //   dispatch(filterProducts());
+  // };
+
   const handleCategory = (event) => {
-    dispatch(setFilters({ category: event.target.value }));
+    const { value, checked } = event.target;
+    dispatch(setFilters({category: checked ? [...filters.category, value] : filters.category.filter(cat => cat !== value)}));
     dispatch(filterProducts());
   };
 
@@ -100,23 +106,11 @@ const Products = () => {
           {/* Category */}
           <div className="mb-4">
             <h6>Category</h6>
+           
             <div className="form-check">
               <label>
                 <input
-                  type="radio"
-                  className="form-check-input"
-                  name="category"
-                  value=""
-                  defaultChecked
-                  onChange={handleCategory}
-                />{" "}
-                All Categories
-              </label>
-            </div>
-            <div className="form-check">
-              <label>
-                <input
-                  type="radio"
+                  type="checkbox"
                   className="form-check-input"
                   name="category"
                   value="Men's"
@@ -128,7 +122,7 @@ const Products = () => {
             <div className="form-check">
               <label>
                 <input
-                  type="radio"
+                  type="checkbox"
                   className="form-check-input"
                   name="category"
                   value="Women's"
