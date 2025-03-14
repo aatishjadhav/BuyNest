@@ -35,7 +35,7 @@ const Products = () => {
   };
 
   const handleRatingChange = (event) => {
-    const ratingValue = parseInt(event.target.value, 10); // Convert to number
+    const ratingValue = parseInt(event.target.value, 10); 
     dispatch(setFilters({ rating: ratingValue }));
     dispatch(filterProducts());
   };
@@ -45,10 +45,11 @@ const Products = () => {
     dispatch(filterProducts());
   };
 
-  // const handleCategory = (event) => {
-  //   dispatch(setFilters({ category: event.target.value }));
-  //   dispatch(filterProducts());
-  // };
+  const handlePriceChange = (e) => {
+    const newPrice = parseInt(e.target.value, 10);
+    dispatch(setFilters({ maxPrice: newPrice }));
+    dispatch(filterProducts());
+ }
 
   const handleCategory = (event) => {
     const { value, checked } = event.target;
@@ -56,9 +57,7 @@ const Products = () => {
     dispatch(filterProducts());
   };
 
-  const handlePrice = (e) => {
-    dispatch(setFilters({ minPrice: 50, maxPrice: e.target.value }));
-  };
+ 
 
   // Function to render stars with half stars
   const renderStars = (rating) => {
@@ -91,17 +90,34 @@ const Products = () => {
           </h5>
 
           {/* Price Slider */}
-          <div className="mb-4">
-            <h6>Price</h6>
-            <input
-              type="range"
-              className="form-range"
-              min="50"
-              max="200"
-              step="1"
-              onChange={handlePrice}
-            />
-          </div>
+         {/* Price Filter */}
+<div className="mb-4">
+  <h6>Price</h6>
+  
+  {/* Price Labels */}
+  <div className="d-flex justify-content-between px-2">
+    {[0, 2000, 4000, 6000, 8000].map((price) => (
+      <span key={price} className="small">
+        {price / 1000}k
+      </span>
+    ))}
+  </div>
+
+  {/* Price Slider */}
+  <input
+    type="range"
+    className="form-range"
+    min="0"
+    max="8000"
+    step="2000"
+    value={filters.maxPrice}
+    onChange={handlePriceChange}
+  />
+
+  {/* Selected Price Display */}
+  <p>Up to ₹{filters.maxPrice.toLocaleString()}</p>
+</div>
+
 
           {/* Category */}
           <div className="mb-4">

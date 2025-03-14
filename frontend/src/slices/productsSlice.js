@@ -23,6 +23,7 @@ export const productsSlice = createSlice({
       rating: null,
       sortBy: null,
       category: [],
+      maxPrice: 8000,
     },
   },
   reducers: {
@@ -38,6 +39,10 @@ export const productsSlice = createSlice({
         filtered = filtered.filter(
           (product) => state.filters.category.includes(product.category)
         );
+      }
+
+      if (state.filters.maxPrice) {
+        filtered = filtered.filter((prod) => prod.price <= state.filters.maxPrice);
       }
 
       if (state.filters.sortBy === "lowToHigh") {
