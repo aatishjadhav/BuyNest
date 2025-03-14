@@ -9,6 +9,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    enum: ["Men's Clothing", "Women's Clothing", "Footwear", "Accessories"], // Add more categories if needed
+    required: true,
+  },
   description: {
     type: String,
     required: true,
