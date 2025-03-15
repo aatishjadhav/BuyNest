@@ -19,11 +19,26 @@ app.get("/products", async (req, res) => {
   }
 });
 
+app.get("/products/categories/:category", async (req, res) => {
+  try {
+    const category = req.params.category;
+    const getProdByCategory = await Product.find({ category: category });
+    if (getProdByCategory) {
+      res.status(200).json(getProdByCategory);
+    } else {
+      res.status(404).json({ error: "Category not found", error });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+})
+
 app.post("/products", async (req, res) => {
   try {
     const {
       name,
       description,
+      category,
       imgUrl,
       rating,
       reviews,
@@ -38,6 +53,7 @@ app.post("/products", async (req, res) => {
     const addNew = new Product({
       name,
       description,
+      category,
       imgUrl,
       rating,
       reviews,

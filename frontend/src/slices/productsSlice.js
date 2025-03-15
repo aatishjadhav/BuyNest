@@ -7,10 +7,17 @@ export const fetchProducts = createAsyncThunk(
   "/products/fetchProducts",
   async () => {
     const response = await axios.get(BASE_URL);
-    console.log(response);
+    console.log("response from redux toolkit", response);
     return response.data;
   }
 );
+
+export const fetchByCategory = createAsyncThunk("/products/fetchByCategory", async (category) => {
+  const response = await axios.get(`${BASE_URL}/categories/${category}`);
+  console.log("response from redux toolkit", response);
+  
+  return response.data;
+})
 
 export const productsSlice = createSlice({
   name: "products",
@@ -30,7 +37,9 @@ export const productsSlice = createSlice({
   reducers: {
     filterBySearch: (state, action) => {
       state.searchQuery = action.payload;
-      state.filteredProducts = state.products.filter(prod => prod.name.toLowerCase().includes(state.searchQuery));
+      state.filteredProducts = state.products.filter((prod) =>
+        prod.name.toLowerCase().includes(state.searchQuery)
+      );
     },
     filterProducts: (state, action) => {
       let filtered = state.products;
@@ -41,13 +50,15 @@ export const productsSlice = createSlice({
         );
       }
       if (state.filters.category.length > 0) {
-        filtered = filtered.filter(
-          (product) => state.filters.category.includes(product.category)
+        filtered = filtered.filter((product) =>
+          state.filters.category.includes(product.category)
         );
       }
 
       if (state.filters.maxPrice) {
-        filtered = filtered.filter((prod) => prod.price <= state.filters.maxPrice);
+        filtered = filtered.filter(
+          (prod) => prod.price <= state.filters.maxPrice
+        );
       }
 
       if (state.filters.sortBy === "lowToHigh") {
@@ -72,6 +83,18 @@ export const productsSlice = createSlice({
       state.filteredProducts = action.payload;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    });
+    builder.addCase(fetchByCategory.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(fetchByCategory.fulfilled, (state, action) => {
+      state.status = "success";
+      state.products = action.payload;
+      state.filteredProducts = action.payload;
+    });
+    builder.addCase(fetchByCategory.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     });

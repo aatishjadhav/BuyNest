@@ -1,6 +1,17 @@
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import { fetchByCategory } from "../slices/productsSlice";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category) => {
+    navigate(`/products/categories/${category}`);  
+    dispatch(fetchByCategory(category));
+  };
+  
   return (
     <>
       <div className="container">
@@ -15,22 +26,22 @@ const Home = () => {
         <div className="text-center py-5">
           <h2>Categories</h2>
           <div className="row py-3">
-            <div className="col-md-3">
+            <div className="col-md-3" style={{cursor: 'pointer'}}  onClick={() => handleCategoryClick("mens")}>
               <div className="bg-light" style={{ padding: "6rem 6rem" }}>
                 <h2>Men</h2>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3" style={{cursor: 'pointer'}} onClick={() => handleCategoryClick("womens")}>
               <div className="bg-light" style={{ padding: "6rem 6rem" }}>
                 <h2>Women</h2>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3" style={{cursor: 'pointer'}} onClick={() => handleCategoryClick("kids")}>
               <div className="bg-light" style={{ padding: "6rem 6rem" }}>
                 <h2>Kids</h2>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3" style={{cursor: 'pointer'}} onClick={() => handleCategoryClick("electronics")}>
               <div className="bg-light" style={{ padding: "6rem 6rem" }}>
                 <h2>Electronics</h2>
               </div>

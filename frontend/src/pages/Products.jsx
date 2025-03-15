@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  fetchByCategory,
   fetchProducts,
   filterProducts,
   setFilters,
 } from "../slices/productsSlice";
 import { FaRegHeart, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { addToWishlist } from "../slices/wishSlice";
@@ -15,13 +16,23 @@ const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { category } = useParams();
+
   const { filteredProducts, products, status, error, filters } = useSelector(
     (state) => state.products
   );
 
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (category) {
+      dispatch(fetchByCategory(category));
+    } else {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, category]);
 
   const handleAdd = (product) => {
     dispatch(addToCart(product));
@@ -30,12 +41,13 @@ const Products = () => {
 
   const handleAddToWishlist = (e, product) => {
     e.stopPropagation(); // Prevent event bubbling
+    
     dispatch(addToWishlist(product));
     navigate("/wishlist");
   };
 
   const handleRatingChange = (event) => {
-    const ratingValue = parseInt(event.target.value, 10); 
+    const ratingValue = parseInt(event.target.value, 10);
     dispatch(setFilters({ rating: ratingValue }));
     dispatch(filterProducts());
   };
@@ -49,15 +61,19 @@ const Products = () => {
     const newPrice = parseInt(e.target.value, 10);
     dispatch(setFilters({ maxPrice: newPrice }));
     dispatch(filterProducts());
- }
+  };
 
   const handleCategory = (event) => {
     const { value, checked } = event.target;
-    dispatch(setFilters({category: checked ? [...filters.category, value] : filters.category.filter(cat => cat !== value)}));
+    dispatch(
+      setFilters({
+        category: checked
+          ? [...filters.category, value]
+          : filters.category.filter((cat) => cat !== value),
+      })
+    );
     dispatch(filterProducts());
   };
-
- 
 
   // Function to render stars with half stars
   const renderStars = (rating) => {
@@ -90,39 +106,37 @@ const Products = () => {
           </h5>
 
           {/* Price Slider */}
-         {/* Price Filter */}
-<div className="mb-4">
-  <h6>Price</h6>
-  
-  {/* Price Labels */}
-  <div className="d-flex justify-content-between px-2">
-    {[0, 2000, 4000, 6000, 8000].map((price) => (
-      <span key={price} className="small">
-        {price / 1000}k
-      </span>
-    ))}
-  </div>
+          <div className="mb-4">
+            <h6>Price</h6>
 
-  {/* Price Slider */}
-  <input
-    type="range"
-    className="form-range"
-    min="0"
-    max="8000"
-    step="2000"
-    value={filters.maxPrice}
-    onChange={handlePriceChange}
-  />
+            {/* Price Labels */}
+            <div className="d-flex justify-content-between px-2">
+              {[0, 2000, 4000, 6000, 8000].map((price) => (
+                <span key={price} className="small">
+                  {price / 1000}k
+                </span>
+              ))}
+            </div>
 
-  {/* Selected Price Display */}
-  <p>Up to ₹{filters.maxPrice.toLocaleString()}</p>
-</div>
+            {/* Price Slider */}
+            <input
+              type="range"
+              className="form-range"
+              min="0"
+              max="8000"
+              step="2000"
+              value={filters.maxPrice}
+              onChange={handlePriceChange}
+            />
 
+            {/* Selected Price Display */}
+            <p>Up to ₹{filters.maxPrice.toLocaleString()}</p>
+          </div>
 
           {/* Category */}
           <div className="mb-4">
             <h6>Category</h6>
-           
+
             <div className="form-check">
               <label>
                 <input
@@ -145,6 +159,30 @@ const Products = () => {
                   onChange={handleCategory}
                 />{" "}
                 Women's
+              </label>
+            </div>
+            <div className="form-check">
+              <label>
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="category"
+                  value="kids"
+                  onChange={handleCategory}
+                />{" "}
+                Kids
+              </label>
+            </div>
+            <div className="form-check">
+              <label>
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="category"
+                  value="electronics"
+                  onChange={handleCategory}
+                />{" "}
+                Electronics
               </label>
             </div>
           </div>
@@ -207,6 +245,8 @@ const Products = () => {
           <h5 className="fw-bold my-3">
             Showing All Products ({filteredProducts.length})
           </h5>
+          {category &&  <h6>{category} Products</h6>}
+         
           {status === "loading" && <p>Loading...</p>}
           {error && <p>{error}</p>}
           <div className="row g-4">
