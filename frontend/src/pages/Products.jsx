@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchByCategory,
@@ -22,9 +23,6 @@ const Products = () => {
     (state) => state.products
   );
 
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, [dispatch]);
 
   useEffect(() => {
     if (category) {
@@ -41,7 +39,7 @@ const Products = () => {
 
   const handleAddToWishlist = (e, product) => {
     e.stopPropagation(); // Prevent event bubbling
-    
+
     dispatch(addToWishlist(product));
     navigate("/wishlist");
   };
@@ -245,79 +243,87 @@ const Products = () => {
           <h5 className="fw-bold my-3">
             Showing All Products ({filteredProducts.length})
           </h5>
-          {category &&  <h6>{category} Products</h6>}
-         
-          {status === "loading" && <p>Loading...</p>}
+          {category && <h6>{category} Products</h6>}
           {error && <p>{error}</p>}
-          <div className="row g-4">
-            {filteredProducts.map((product, index) => (
-              <div className="col-md-4 mb-3" key={index}>
-                <div className="card">
-                  <div style={{ backgroundColor: "light", padding: "20px" }}>
-                    <img
-                      src={product.imgUrl}
-                      className="img-fluid"
-                      alt="Product"
-                      style={{
-                        height: "250px",
-                        width: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-
-                  <div
-                    className="card-img-overlay p-2 d-flex justify-content-end"
-                    style={{ pointerEvents: "none" }}
-                  >
-                    <button
-                      onClick={(e) => handleAddToWishlist(e, product)}
-                      className="btn rounded-circle"
-                      style={{
-                        backgroundColor: "rgba(255, 255, 255, 0.8)",
-                        width: "40px",
-                        height: "40px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "none",
-                        pointerEvents: "auto",
-                      }}
-                    >
-                      <FaRegHeart size={20} />
-                    </button>
-                  </div>
-
-                  <div className="card-body text-center">
-                    <Link
-                      to={`/products/${product._id}`}
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <h6 className="fw-bold">{product.name}</h6>
-                    </Link>
-                    <Link
-                      to={`/products/${product._id}`}
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <p className="fw-bold">₹{product.price}</p>
-                    </Link>
-                    <div className="d-flex align-items-center mb-2">
-                      <p className="mb-0 me-2">{product.rating}</p>
-                      <div className="d-flex">
-                        {renderStars(product.rating)}
-                      </div>
+          {status === "loading" ? (
+            <DotLottieReact
+            className="h-[200px]"
+            src="https://lottie.host/6ed95052-d3f3-46b4-9659-ffc7e08449cd/wwZcBFAmDs.lottie"
+            loop
+            autoplay
+          />
+          ) : (
+            
+            <div className="row g-4">
+              {filteredProducts.map((product, index) => (
+                <div className="col-md-4 mb-3" key={index}>
+                  <div className="card">
+                    <div style={{ backgroundColor: "light", padding: "20px" }}>
+                      <img
+                        src={product.imgUrl}
+                        className="img-fluid"
+                        alt="Product"
+                        style={{
+                          height: "250px",
+                          width: "100%",
+                          objectFit: "contain",
+                        }}
+                      />
                     </div>
-                    <button
-                      className="btn btn-primary w-100"
-                      onClick={() => handleAdd(product)}
+
+                    <div
+                      className="card-img-overlay p-2 d-flex justify-content-end"
+                      style={{ pointerEvents: "none" }}
                     >
-                      Add to Cart
-                    </button>
+                      <button
+                        onClick={(e) => handleAddToWishlist(e, product)}
+                        className="btn rounded-circle"
+                        style={{
+                          backgroundColor: "rgba(255, 255, 255, 0.8)",
+                          width: "40px",
+                          height: "40px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: "none",
+                          pointerEvents: "auto",
+                        }}
+                      >
+                        <FaRegHeart size={20} />
+                      </button>
+                    </div>
+
+                    <div className="card-body text-center">
+                      <Link
+                        to={`/products/${product._id}`}
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <h6 className="fw-bold">{product.name}</h6>
+                      </Link>
+                      <Link
+                        to={`/products/${product._id}`}
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <p className="fw-bold">₹{product.price}</p>
+                      </Link>
+                      <div className="d-flex align-items-center justify-content-center mb-2">
+                        <p className="mb-0 me-2">{product.rating}</p>
+                        <div className="d-flex">
+                          {renderStars(product.rating)}
+                        </div>
+                      </div>
+                      <button
+                        className="btn btn-primary w-100"
+                        onClick={() => handleAdd(product)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

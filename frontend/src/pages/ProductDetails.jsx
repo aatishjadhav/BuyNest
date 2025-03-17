@@ -275,7 +275,7 @@ const ProductDetails = () => {
 
   return (
     <div className="container py-5">
-      <div className="row">
+      <div className="row gap-3">
         <div className="col-md-4">
           <div className="card">
             <div style={{ backgroundColor: "light", padding: "20px" }}>
@@ -341,7 +341,7 @@ const ProductDetails = () => {
               +
             </button>
           </p>
-          <span>Size: {product?.size?.join(" ")}</span>
+          <span><b>Size:</b> {product?.size?.join(" ")}</span>
 
           <hr />
 
