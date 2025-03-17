@@ -141,7 +141,7 @@ const Products = () => {
                   type="checkbox"
                   className="form-check-input"
                   name="category"
-                  value="Men's"
+                  value="mens"
                   onChange={handleCategory}
                 />{" "}
                 Men's
@@ -153,7 +153,7 @@ const Products = () => {
                   type="checkbox"
                   className="form-check-input"
                   name="category"
-                  value="Women's"
+                  value="womens"
                   onChange={handleCategory}
                 />{" "}
                 Women's
@@ -165,7 +165,7 @@ const Products = () => {
                   type="checkbox"
                   className="form-check-input"
                   name="category"
-                  value="kids"
+                  value="Kids"
                   onChange={handleCategory}
                 />{" "}
                 Kids
@@ -177,7 +177,7 @@ const Products = () => {
                   type="checkbox"
                   className="form-check-input"
                   name="category"
-                  value="electronics"
+                  value="Electronics"
                   onChange={handleCategory}
                 />{" "}
                 Electronics
