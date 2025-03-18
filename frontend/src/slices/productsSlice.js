@@ -12,12 +12,15 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-export const fetchByCategory = createAsyncThunk("/products/fetchByCategory", async (category) => {
-  const response = await axios.get(`${BASE_URL}/categories/${category}`);
-  console.log("response from redux toolkit", response);
-  
-  return response.data;
-})
+export const fetchByCategory = createAsyncThunk(
+  "/products/fetchByCategory",
+  async (category) => {
+    const response = await axios.get(`${BASE_URL}/categories/${category}`);
+    console.log("response from redux toolkit", response);
+
+    return response.data;
+  }
+);
 
 export const productsSlice = createSlice({
   name: "products",
@@ -41,7 +44,7 @@ export const productsSlice = createSlice({
         prod.name.toLowerCase().includes(state.searchQuery)
       );
     },
-    filterProducts: (state, action) => {
+    filterProducts: (state) => {
       let filtered = state.products;
 
       if (state.filters.rating) {
@@ -72,6 +75,17 @@ export const productsSlice = createSlice({
     setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload };
     },
+    clearFilters: (state) => {
+      state.filters = {
+        rating: null,
+        sortBy: null,
+        category: [],
+        maxPrice: 8000,
+      };
+      state.searchQuery = "";
+      state.filteredProducts = state.products;
+    }
+    
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
@@ -101,7 +115,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { filterBySearch, filterProducts, setFilters } =
+export const { filterBySearch, filterProducts, setFilters, clearFilters } =
   productsSlice.actions;
 
 export default productsSlice.reducer;

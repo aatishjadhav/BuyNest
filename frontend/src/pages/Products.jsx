@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  clearFilters,
   fetchByCategory,
   fetchProducts,
   filterProducts,
@@ -19,10 +20,9 @@ const Products = () => {
 
   const { category } = useParams();
 
-  const { filteredProducts, products, status, error, filters } = useSelector(
+  const { filteredProducts, status, error, filters } = useSelector(
     (state) => state.products
   );
-
 
   useEffect(() => {
     if (category) {
@@ -100,7 +100,14 @@ const Products = () => {
       <div className="row">
         <div className="col-md-3 col-lg-2 bg-white p-4">
           <h5 className="fw-bold">
-            Filters <span className="text-primary float-end">Clear</span>
+            Filters{" "}
+            <span
+              className="text-primary float-end"
+              style={{ cursor: "pointer" }}
+              onClick={() => dispatch(clearFilters())}
+            >
+              Clear
+            </span>
           </h5>
 
           {/* Price Slider */}
@@ -142,6 +149,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="mens"
+                  checked={filters.category.includes("mens")} 
                   onChange={handleCategory}
                 />{" "}
                 Men's
@@ -154,6 +162,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="womens"
+                  checked={filters.category.includes("womens")} 
                   onChange={handleCategory}
                 />{" "}
                 Women's
@@ -166,6 +175,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="Kids"
+                  checked={filters.category.includes("Kids")} 
                   onChange={handleCategory}
                 />{" "}
                 Kids
@@ -178,6 +188,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="Electronics"
+                  checked={filters.category.includes("Electronics")} 
                   onChange={handleCategory}
                 />{" "}
                 Electronics
@@ -202,6 +213,7 @@ const Products = () => {
                   id={`rating${index}`}
                   value={5 - index}
                   onChange={handleRatingChange}
+                  checked={filters.rating === 5 - index}
                 />
                 <label className="form-check-label" htmlFor={`rating${index}`}>
                   {rating}
@@ -219,6 +231,7 @@ const Products = () => {
                 type="radio"
                 name="sort"
                 id="sort1"
+                checked={filters.sortBy === "lowToHigh"}
                 onChange={() => handleSort("lowToHigh")}
               />
               <label className="form-check-label" htmlFor="sort1">
@@ -231,6 +244,7 @@ const Products = () => {
                 type="radio"
                 name="sort"
                 id="sort2"
+                checked={filters.sortBy === "highToLow"}
                 onChange={() => handleSort("highToLow")}
               />
               <label className="form-check-label" htmlFor="sort2">
@@ -247,13 +261,12 @@ const Products = () => {
           {error && <p>{error}</p>}
           {status === "loading" ? (
             <DotLottieReact
-            className="h-[200px]"
-            src="https://lottie.host/6ed95052-d3f3-46b4-9659-ffc7e08449cd/wwZcBFAmDs.lottie"
-            loop
-            autoplay
-          />
+              className="h-[200px]"
+              src="https://lottie.host/6ed95052-d3f3-46b4-9659-ffc7e08449cd/wwZcBFAmDs.lottie"
+              loop
+              autoplay
+            />
           ) : (
-            
             <div className="row g-4">
               {filteredProducts.map((product, index) => (
                 <div className="col-md-4 mb-3" key={index}>
