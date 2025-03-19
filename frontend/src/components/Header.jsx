@@ -2,12 +2,16 @@ import { Link, useNavigate } from "react-router-dom";
 import CartCount from "./CartCount";
 import WishlistCount from "./WishlistCount";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterBySearch } from "../slices/productsSlice";
+import { logout } from "../slices/authSlice";
 
 const Header = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  console.log("User Data:", JSON.stringify(user, null, 2));
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -53,9 +57,21 @@ const Header = () => {
           </div>
 
           <div className="ms-auto d-flex gap-4">
-            <Link className="btn btn-warning" to="/login">
-              Login
-            </Link>
+            {user ? (
+              <>
+                <span>Welcome, {user.name}</span>
+                <button
+                  onClick={() => dispatch(logout())}
+                  className="btn btn-warning"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link className="btn btn-warning" to="/login">
+                Login
+              </Link>
+            )}
 
             <WishlistCount />
             <CartCount />
