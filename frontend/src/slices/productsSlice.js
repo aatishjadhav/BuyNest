@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:4000/products";
+const BASE_URL = "https://backend-buy-nest.vercel.app/products";
 
 export const fetchProducts = createAsyncThunk(
   "/products/fetchProducts",
