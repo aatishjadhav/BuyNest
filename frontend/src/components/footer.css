@@ -1,0 +1,18 @@
+footer{
+    background-color: darksalmon;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    flex-wrap: wrap;
+    color: white;
+    font-size: 20px;
+}
+.sec1, .sec2, .sec3{
+    min-width: 280px;
+}
+.foot-text{
+    width: 100%;
+}
+nav{
+    background-color: darksalmon;
+}

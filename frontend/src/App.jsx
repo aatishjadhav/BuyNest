@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
 import Products from "./pages/Products";
 import Home from "./pages/Home";
@@ -22,6 +23,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register/>} />
       </Routes>
+
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </>
   );
 }

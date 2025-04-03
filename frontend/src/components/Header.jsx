@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { filterBySearch } from "../slices/productsSlice";
 import { logout } from "../slices/authSlice";
+import "./footer.css";
 
 const Header = () => {
   const [search, setSearch] = useState("");
@@ -21,10 +22,10 @@ const Header = () => {
   };
 
   return (
-    <header className="container">
-      <nav className="navbar navbar-expand-lg bg-white">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+    <header className="">
+      <nav className="navbar navbar-expand-lg text-light">
+        <div className="container-fluid container">
+          <Link className="navbar-brand text-light" to="/">
             BuyNest
           </Link>
           <Link className="nav-link" to="/products">

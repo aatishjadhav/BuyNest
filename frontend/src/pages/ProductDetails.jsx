@@ -226,7 +226,7 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchProducts } from "../slices/productsSlice";
 import { FaRegHeart, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 import { addToCart } from "../slices/cartSlice";
@@ -274,7 +274,10 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="container py-5">
+    <div className="container py-3">
+      <div className="py-3">
+        <Link to="/products" className="btn btn-secondary">Back</Link>
+        </div>
       <div className="row gap-3">
         <div className="col-md-4">
           <div className="card">
@@ -331,7 +334,7 @@ const ProductDetails = () => {
             </span>
           </div>
           <span>{product.discount} off</span>
-          <p className="mt-2">
+          {/* <p className="mt-2">
             <b>Quantity: </b>{" "}
             <button className="btn btn-sm btn-outline-primary rounded-circle mx-2">
               -
@@ -340,8 +343,8 @@ const ProductDetails = () => {
             <button className="btn btn-sm btn-outline-primary rounded-circle mx-2">
               +
             </button>
-          </p>
-          <span><b>Size:</b> {product?.size?.join(" ")}</span>
+          </p> */}
+          <p><b>Size:</b> {product?.size?.join(" ")}</p>
 
           <hr />
 

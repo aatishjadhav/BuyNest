@@ -9,6 +9,7 @@ import {
   setFilters,
 } from "../slices/productsSlice";
 import { FaRegHeart, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 import { Link, useParams } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +36,7 @@ const Products = () => {
   const handleAdd = (product) => {
     dispatch(addToCart(product));
     navigate("/cart");
+    toast.success("Product added to cart.");
   };
 
   const handleAddToWishlist = (e, product) => {
@@ -42,6 +44,7 @@ const Products = () => {
 
     dispatch(addToWishlist(product));
     navigate("/wishlist");
+    toast.info("Product added to wishlist.");
   };
 
   const handleRatingChange = (event) => {
