@@ -4,15 +4,14 @@ import WishlistCount from "./WishlistCount";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { filterBySearch } from "../slices/productsSlice";
-import { logout } from "../slices/authSlice";
 import "./footer.css";
+import { MdPersonOutline, MdCancel, MdCheckCircle } from "react-icons/md";
 
 const Header = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   console.log("User Data:", JSON.stringify(user, null, 2));
-
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -57,7 +56,7 @@ const Header = () => {
             </form>
           </div>
 
-          <div className="ms-auto d-flex gap-4">
+          {/* <div className="ms-auto d-flex gap-4">
             {user ? (
               <>
                 <span>Welcome, {user.name}</span>
@@ -68,9 +67,33 @@ const Header = () => {
                   Logout
                 </button>
               </>
+            ) : ( 
+              // <Link className="btn btn-warning" to="/login">
+              //   Login
+              // </Link>
+            )}
+
+
+          {/* </div> */}
+          <div className="ms-auto d-flex gap-4">
+            {user ? (
+              <Link className="nav-link" to="/user/profile">
+                <MdPersonOutline size={29} />
+                <MdCheckCircle
+                  size={18}
+                  color="white"
+                  style={{ position: "", bottom: 0, right: 0 }}
+                />
+              </Link>
             ) : (
-              <Link className="btn btn-warning" to="/login">
-                Login
+              <Link className="nav-link" to="/login">
+                {" "}
+                <MdPersonOutline size={29} />
+                <MdCancel
+                  size={14}
+                  color="white"
+                  style={{ position: "", bottom: 0, right: 0 }}
+                />
               </Link>
             )}
 

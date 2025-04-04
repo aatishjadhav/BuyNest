@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -12,17 +13,17 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({email, password }));
-    navigate("/");
+    dispatch(loginUser({ email, password }));
+    toast.success("Login Successfully");
+    navigate("/user/profile");
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div className="d-flex justify-content-center align-items-center py-5">
       <div className="card shadow p-4" style={{ width: "25rem" }}>
         <h2 className="text-center mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
-         
-         <div className="mb-3">
+          <div className="mb-3">
             <label className="form-label">Email</label>
             <input
               type="email"
@@ -45,6 +46,13 @@ const Login = () => {
           </div>
 
           <button className="btn btn-primary w-100">Login</button>
+
+          <div className="d-flex gap-2 py-3 justify-content-center align-items-center">
+            <span> New User?</span>{" "}
+            <Link to="/register" className="nav-link" style={{ color: "blue" }}>
+              Sign Up
+            </Link>
+          </div>
         </form>
       </div>
     </div>

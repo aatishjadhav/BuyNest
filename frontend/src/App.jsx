@@ -8,6 +8,10 @@ import Cart from "./pages/Cart";
 import WishList from "./pages/WishList";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import Address from "./pages/Addresss";
+import Orders from "./pages/Orders";
+import MainProfile from "./pages/MainProfile";
 
 function App() {
   return (
@@ -21,7 +25,10 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register/>} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/user/profile" element={<Profile />} />
+        <Route path="/user/address" element={<Address />} />
+        <Route path="/user/orders" element={<Orders />} />
       </Routes>
 
       <ToastContainer position="bottom-right" autoClose={3000} />

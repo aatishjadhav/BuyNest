@@ -18,10 +18,15 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+const getUserfromLocalStorage = () => {
+  const user = localStorage.getItem("user")
+  return user ? JSON.parse(user) : null
+}
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: getUserfromLocalStorage(),
     loading: false,
     error: null,
   },
@@ -33,12 +38,14 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.error = action.payload;
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.error = action.payload;
