@@ -70,6 +70,11 @@ const productSchema = new mongoose.Schema({
       default: true,
     },
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  }
 });
 
 const Product = mongoose.model("Product", productSchema);
