@@ -5,6 +5,7 @@ const cors = require("cors");
 const User = require("./models/user.models");
 const Order = require("./models/order.models");
 const { verifyToken } = require("./middleware/verifyToken.js");
+const bcrypt = require("bcryptjs");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

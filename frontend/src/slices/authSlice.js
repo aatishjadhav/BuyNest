@@ -1,51 +1,58 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const BASE_URL = "https://backend-buy-nest.vercel.app";
+import { BASE_URL } from "../config";
 
 export const loginUser = createAsyncThunk(
   "login/loginUser",
   async (userData) => {
-    const response = await axios.post(`${BASE_URL}/login`, userData);
-    return response.data.user;
+    const response = await axios.post(`${BASE_URL}/login`, userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const { token, user } = response.data;
+    localStorage.setItem("token", token);
+    localStorage.setItem("users", JSON.stringify(user));
+    toast.success("Login successful");
+
+    return { token, user };
   }
 );
 
 export const registerUser = createAsyncThunk(
   "register/registerUser",
   async (userData) => {
-    const response = await axios.post(`${BASE_URL}/register`, userData);
+    const response = await axios.post(`${BASE_URL}/signup`, userData);
     return response.data.user;
   }
 );
 
-const getUserfromLocalStorage = () => {
-  const user = localStorage.getItem("user")
-  return user ? JSON.parse(user) : null
-}
-
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: getUserfromLocalStorage(),
+    user: [],
     loading: false,
     error: null,
   },
   reducers: {
     logout: (state) => {
       state.user = null;
+      state.token = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("users");
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(state.user));
+      state.user = action.payload.user;
+      state.token = action.payload.token;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.error = action.payload;
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(state.user));
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.error = action.payload;

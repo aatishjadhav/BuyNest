@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../slices/authSlice";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -10,19 +9,41 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
-    toast.success("Login Successfully");
-    navigate("/user/profile");
+    setError(""); 
+
+    try {
+      const response = await fetch("https://backend-buy-nest.vercel.app/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed"); 
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("users", JSON.stringify(data.user));
+      navigate("/user/profile");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center py-5">
       <div className="card shadow p-4" style={{ width: "25rem" }}>
         <h2 className="text-center mb-4">Login</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label className="form-label">Email</label>
             <input

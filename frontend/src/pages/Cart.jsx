@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "../slices/cartSlice";
+import { clearCart, removeFromCart } from "../slices/cartSlice";
 import { addToWishlist } from "../slices/wishSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { updateQuantity } from "../slices/cartSlice";
 import { toast } from "react-toastify";
+import { addNewOrder } from "../slices/orderSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,30 @@ const Cart = () => {
     dispatch(removeFromCart(itemId));
     toast.warning("Product removed from cart.");
   };
+  
+  const placeOrder = async () => {
+    const orderItems = cart.map((item) => ({
+      productId: item._id,
+      quantity: item.quantity,
+    }));
+  
+    const orderData = {
+      items: orderItems,
+      total: totalAmount
+    };
+   console.log("order data", orderData);
+   
+    try {
+      await dispatch(addNewOrder(orderData)).unwrap(); 
+      toast.success("Order placed successfully!");
+      dispatch(clearCart());
+      navigate("/user/orders");
+    } catch (error) {
+      toast.error("Failed to place order. Please try again.");
+      console.error("Order placement error:", error);
+    }
+  };
+  
 
   return (
     <div className="container py-3">
@@ -160,7 +185,10 @@ const Cart = () => {
                     <span>
                       You will save ₹{discountedPrice.toFixed(0)} on this order
                     </span>
-                    <button className="btn btn-primary w-100 mt-3">
+                    <button
+                      className="btn btn-primary w-100 mt-3"
+                      onClick={placeOrder}
+                    >
                       Place Order
                     </button>
                   </div>

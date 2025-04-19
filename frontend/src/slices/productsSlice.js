@@ -1,12 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const BASE_URL = "https://backend-buy-nest.vercel.app/products";
+import { BASE_URL } from "../config";
 
 export const fetchProducts = createAsyncThunk(
   "/products/fetchProducts",
   async () => {
-    const response = await axios.get(BASE_URL);
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${BASE_URL}/products`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     console.log("response from redux toolkit", response);
     return response.data;
   }
@@ -15,7 +19,12 @@ export const fetchProducts = createAsyncThunk(
 export const fetchByCategory = createAsyncThunk(
   "/products/fetchByCategory",
   async (category) => {
-    const response = await axios.get(`${BASE_URL}/categories/${category}`);
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${BASE_URL}/products/categories/${category}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     console.log("response from redux toolkit", response);
 
     return response.data;

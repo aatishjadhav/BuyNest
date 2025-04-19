@@ -8,7 +8,7 @@ import MainProfile from "./MainProfile";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("users"));
 
   const handleLogout = () => {
     dispatch(logout());
@@ -20,7 +20,7 @@ const Profile = () => {
     <div>
       <MainProfile/>
 
-      <div className="text-center py-5">
+      <div className="text-center py-3">
         <h4>My Profile</h4>
         <p>Name: {user?.name}</p>
         <p>Email: {user?.email}</p>
