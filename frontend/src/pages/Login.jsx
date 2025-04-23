@@ -16,7 +16,7 @@ const Login = () => {
     try {
       await dispatch(loginUser({ email, password })).unwrap();
       toast.success("Login successful!");
-      navigate("/settings");
+      navigate("/user/profile");
     } catch (error) {
       toast.error("Invalid credentials!");
     }
