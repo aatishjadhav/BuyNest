@@ -28,13 +28,17 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+const initialState = {
+  user: JSON.parse(localStorage.getItem("users")) || null,
+  token: localStorage.getItem("token") || null,
+  loading: false,
+  error: null,
+};
+
+
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: [],
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
     logout: (state) => {
       state.user = null;

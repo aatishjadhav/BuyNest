@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { loginUser } from "../slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -9,69 +10,66 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); 
-
-    try {
-      const response = await fetch("https://backend-buy-nest.vercel.app/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Login failed"); 
-        return;
-      }
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("users", JSON.stringify(data.user));
-      navigate("/user/profile");
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
-    }
+    dispatch(loginUser({ email, password }));
+    toast.success("Login successfull!");
+    navigate("/user/profile");
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center py-5">
-      <div className="card shadow p-4" style={{ width: "25rem" }}>
-        <h2 className="text-center mb-4">Login</h2>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div
+        className="card shadow-lg border-0 p-4 rounded-4"
+        style={{ width: "400px", backgroundColor: "#ffffff" }}
+      >
+        <h2 className="text-center mb-4 fw-bold" style={{ color: "#0d6efd" }}>
+          Welcome Back
+        </h2>
+        <p className="text-center text-muted mb-4">Login to your account</p>
         <form onSubmit={handleLogin}>
           <div className="mb-3">
-            <label className="form-label">Email</label>
+            <label className="form-label fw-semibold">Email Address</label>
             <input
               type="email"
-              className="form-control"
-              placeholder="Enter Your Email"
+              className="form-control rounded-3"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Password</label>
+            <label className="form-label fw-semibold">Password</label>
             <input
               type="password"
-              className="form-control"
-              placeholder="Enter Your Password"
+              className="form-control rounded-3"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
-          <button className="btn btn-primary w-100">Login</button>
+          <div className="d-grid">
+            <button
+              className="btn btn-primary btn-lg rounded-3 shadow-sm"
+              type="submit"
+            >
+              Login
+            </button>
+          </div>
 
-          <div className="d-flex gap-2 py-3 justify-content-center align-items-center">
-            <span> New User?</span>{" "}
-            <Link to="/register" className="nav-link" style={{ color: "blue" }}>
-              Sign Up
+          <div className="text-center mt-4">
+            <span className="text-muted">New User? </span>
+            <Link
+              to="/register"
+              className="text-decoration-none fw-semibold"
+              style={{ color: "#0d6efd" }}
+            >
+              Create an account
             </Link>
           </div>
         </form>

@@ -8,7 +8,7 @@ import MainProfile from "./MainProfile";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("users"));
+  const user = useSelector((state) => state.auth.user);
 
   const handleLogout = () => {
     dispatch(logout());
