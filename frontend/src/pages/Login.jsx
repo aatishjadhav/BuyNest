@@ -31,7 +31,7 @@ const Login = () => {
     try {
       await dispatch(loginUser(guestCredentials)).unwrap();
       toast.success("Logged in as Guest!");
-      navigate("/settings");
+      navigate("/user/profile");
     } catch (error) {
       toast.error("Guest login failed!");
     }

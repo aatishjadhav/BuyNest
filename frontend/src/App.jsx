@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
 import Products from "./pages/Products";
@@ -11,12 +11,12 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Address from "./pages/Addresss";
 import Orders from "./pages/Orders";
-import MainProfile from "./pages/MainProfile";
 
 function App() {
+  const location = useLocation();
   return (
     <>
-      <Header />
+       {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />

@@ -84,7 +84,7 @@ const Register = () => {
           <div className="text-center mt-4">
             <span className="text-muted">Already a user? </span>
             <Link
-              to="/"
+              to="/login"
               className="text-decoration-none fw-semibold"
               style={{ color: "#198754" }}
             >
