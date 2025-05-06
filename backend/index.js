@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const User = require("./models/user.models");
 const Order = require("./models/order.models");
-const { verifyToken } = require("./middleware/verifyToken.js");
+const  verifyToken  = require("./middleware/verifyToken.js");
 const bcrypt = require("bcryptjs");
 const app = express();
 app.use(express.json());
@@ -33,41 +33,6 @@ app.get("/users", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-// app.post("/register", async (req, res) => {
-//   try {
-//     const { name, email, password } = req.body;
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       return res.status(400).json({ error: "User already exist" });
-//     }
-//     const newUser = new User({ name, email, password });
-//     await newUser.save();
-//      res
-//       .status(201)
-//       .json({ message: "New user added successfully", user: newUser });
-//   } catch (error) {
-//      res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-
-// app.post("/login", async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-//     const user = await User.findOne({ email });
-
-//     if (!user || user.password !== password) {
-//       return res.status(400).json({ error: "Invalid Credentials" });
-//     }
-
-//     res.json({
-//       message: "Login Successful",
-//       user: user
-//     });
-//   } catch (error) {
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
