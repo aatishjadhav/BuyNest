@@ -4,7 +4,6 @@ import { fetchByCategory } from "../slices/productsSlice";
 import { useDispatch } from "react-redux";
 import Carousal from "../components/Carousal";
 
-
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,12 +12,12 @@ const Home = () => {
     navigate(`/products/categories/${category}`);
     dispatch(fetchByCategory(category));
   };
-  
+
   return (
     <>
       <div className="container">
-        <Carousal/>
-        <div className="text-center py-5">
+        <Carousal />
+        <div className="text-center py-5 container">
           <h2>Categories</h2>
           <div className="row py-3 rounded">
             <div
@@ -27,25 +26,19 @@ const Home = () => {
               onClick={() => handleCategoryClick("mens")}
             >
               <div
-                className="bg-light vspace=4"
-                style={{ padding: "6rem 6rem" }}
+                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                style={{
+                  height: "310px",
+                  backgroundImage:
+                    "url('https://plus.unsplash.com/premium_photo-1687914904404-b683856ae25c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fG1lbnN8ZW58MHx8MHx8fDA%3D')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderRadius: "12px",
+                }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="64"
-                  height="64"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="8.5" cy="7" r="4"></circle>
-                  <polyline points="17 11 19 13 23 9"></polyline>
-                </svg>
-                <h4 className="mt-3">Men</h4>
+                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
+                  Men
+                </h4>
               </div>
             </div>
             <div
@@ -53,21 +46,20 @@ const Home = () => {
               style={{ cursor: "pointer" }}
               onClick={() => handleCategoryClick("womens")}
             >
-              <div className="bg-light" style={{ padding: "6rem 6rem" }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="64"
-                  height="64"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M16 2H8l-4 7h3l-4 7h4l3 5 .5-9h4l.5 9 3-5h4l-4-7h3l-4-7Z"></path>
-                </svg>
-                <h4 className="mt-3">Women</h4>
+              <div
+                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                style={{
+                  height: "310px",
+                  backgroundImage:
+                    "url('https://images.unsplash.com/photo-1607748851687-ba9a10438621?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d29tZW5zfGVufDB8fDB8fHww')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderRadius: "12px",
+                }}
+              >
+                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
+                  Women
+                </h4>
               </div>
             </div>
             <div
@@ -75,25 +67,20 @@ const Home = () => {
               style={{ cursor: "pointer" }}
               onClick={() => handleCategoryClick("Kids")}
             >
-              <div className="bg-light" style={{ padding: "6rem 6rem" }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="64"
-                  height="64"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M10 2v1h4V2"></path>
-                  <path d="M13.8 8.8a2 2 0 0 0-3.6 0"></path>
-                  <path d="M7 13.8a5 5 0 0 0 10 0"></path>
-                  <path d="M17 15.2V16a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2v-.8"></path>
-                  <path d="M12 22v-1"></path>
-                </svg>
-                <h4 className="mt-3">Kids</h4>
+              <div
+                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                style={{
+                  height: "310px",
+                  backgroundImage:
+                    "url('https://plus.unsplash.com/premium_photo-1691367782367-2bd37f646abc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fGtpZHMlMjBjbG90aGVzfGVufDB8fDB8fHww')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderRadius: "12px",
+                }}
+              >
+                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
+                  Kids
+                </h4>
               </div>
             </div>
             <div
@@ -101,22 +88,20 @@ const Home = () => {
               style={{ cursor: "pointer" }}
               onClick={() => handleCategoryClick("Electronics")}
             >
-              <div className="bg-light" style={{ padding: "6rem 6rem" }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="64"
-                  height="64"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                  <path d="M12 18h.01"></path>
-                </svg>
-                <h4 className="mt-3">Electronics</h4>
+              <div
+                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                style={{
+                  height: "310px",
+                  backgroundImage:
+                    "url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZWxlY3Ryb25pY3N8ZW58MHx8MHx8fDA%3D')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderRadius: "12px",
+                }}
+              >
+                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
+                  Electronics
+                </h4>
               </div>
             </div>
           </div>

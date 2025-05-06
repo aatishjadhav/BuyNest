@@ -82,8 +82,13 @@ const Cart = () => {
                         <div className="col-md-4">
                           <img
                             src={item.imgUrl}
-                            className="img-fluid rounded-start"
+                            className="img-fluid rounded-start mt-2"
                             alt="Product"
+                            style={{
+                              height: "250px",
+                              width: "100%",
+                              objectFit: "contain",
+                            }}
                           />
                         </div>
                         <div className="col-md-8 px-5">
