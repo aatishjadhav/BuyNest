@@ -14,13 +14,13 @@ const Carousal = () => {
   <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src={heroImg1} class="d-block w-100 img-fluid rounded" style={{ height: "500px", width: "1300px" }} alt="..."/>
-    </div>
-    <div class="carousel-item">
       <img src={heroImg2} class="d-block w-100 img-fluid rounded" style={{ height: "500px", width: "1300px" }} alt="..."/>
     </div>
     <div class="carousel-item">
       <img src={heroImg3} class="d-block w-100 img-fluid rounded" style={{ height: "500px", width: "1300px" }} alt="..."/>
+    </div>
+    <div class="carousel-item">
+      <img src={heroImg1} class="d-block w-100 img-fluid rounded" style={{ height: "500px", width: "1300px" }} alt="..."/>
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">

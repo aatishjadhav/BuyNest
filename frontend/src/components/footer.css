@@ -1,18 +1,31 @@
-footer{
-    background-color: darksalmon;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 1rem;
-    flex-wrap: wrap;
-    color: white;
-    font-size: 20px;
+footer {
+  background-color: darksalmon;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1rem;
+  flex-wrap: wrap;
+  color: white;
+  font-size: 20px;
 }
-.sec1, .sec2, .sec3{
-    min-width: 280px;
+.sec1,
+.sec2,
+.sec3 {
+  min-width: 280px;
 }
-.foot-text{
-    width: 100%;
+.foot-text {
+  width: 100%;
 }
-nav{
-    background-color: darksalmon;
+nav {
+  background-color: darksalmon;
+}
+header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.nscroll {
+  position: sticky;
+  top: 80px;
+  height: fit-content;
 }

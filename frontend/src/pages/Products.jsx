@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -14,6 +14,7 @@ import { Link, useParams } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { addToWishlist } from "../slices/wishSlice";
+import Pagination from "../components/Pagination";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,13 @@ const Products = () => {
   const { filteredProducts, status, error, filters } = useSelector(
     (state) => state.products
   );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productPerPage, setProductPerPage] = useState(4);
+
+  const lastIndex = currentPage * productPerPage;
+  const firstIndex = lastIndex - productPerPage;
+  const paginatedProducts = filteredProducts.slice(firstIndex, lastIndex);
 
   useEffect(() => {
     if (category) {
@@ -101,7 +109,7 @@ const Products = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-3 col-lg-2 bg-white p-4">
+        <div className="col-md-3 col-lg-2 bg-white p-4 nscroll">
           <h5 className="fw-bold">
             Filters{" "}
             <span
@@ -152,7 +160,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="mens"
-                  checked={filters.category.includes("mens")} 
+                  checked={filters.category.includes("mens")}
                   onChange={handleCategory}
                 />{" "}
                 Men's
@@ -165,7 +173,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="womens"
-                  checked={filters.category.includes("womens")} 
+                  checked={filters.category.includes("womens")}
                   onChange={handleCategory}
                 />{" "}
                 Women's
@@ -178,7 +186,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="Kids"
-                  checked={filters.category.includes("Kids")} 
+                  checked={filters.category.includes("Kids")}
                   onChange={handleCategory}
                 />{" "}
                 Kids
@@ -191,7 +199,7 @@ const Products = () => {
                   className="form-check-input"
                   name="category"
                   value="Electronics"
-                  checked={filters.category.includes("Electronics")} 
+                  checked={filters.category.includes("Electronics")}
                   onChange={handleCategory}
                 />{" "}
                 Electronics
@@ -258,7 +266,7 @@ const Products = () => {
         </div>
         <div className="col-md-9 col-lg-10 bg-light">
           <h5 className="fw-bold my-3">
-            Showing All Products ({filteredProducts.length})
+            Showing All Products ({paginatedProducts.length})
           </h5>
           {category && <h6>{category} Products</h6>}
           {error && <p>{error}</p>}
@@ -271,7 +279,7 @@ const Products = () => {
             />
           ) : (
             <div className="row g-4">
-              {filteredProducts.map((product, index) => (
+              {paginatedProducts.map((product, index) => (
                 <div className="col-md-4 mb-3" key={index}>
                   <div className="card">
                     <div style={{ backgroundColor: "light", padding: "20px" }}>
@@ -340,6 +348,11 @@ const Products = () => {
               ))}
             </div>
           )}
+          <Pagination
+            setCurrentPage={setCurrentPage}
+            totalProducts={filteredProducts.length}
+            productPerPage={productPerPage}
+          />
         </div>
       </div>
     </div>
