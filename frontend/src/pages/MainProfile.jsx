@@ -10,12 +10,12 @@ const MainProfile = () => {
   >
     Profile
   </NavLink>
-  <NavLink
+  {/* <NavLink
     to="/user/address"
     className={({ isActive }) => (isActive ? "fs-5 nav-link fw-bold text-primary" : "fs-5 nav-link")}
   >
     Addresses
-  </NavLink>
+  </NavLink> */}
   <NavLink
     to="/user/orders"
     className={({ isActive }) => (isActive ? "fs-5 nav-link fw-bold text-primary" : "fs-5 nav-link")}
