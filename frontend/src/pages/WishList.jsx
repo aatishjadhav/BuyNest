@@ -29,7 +29,7 @@ const WishList = () => {
         <>
           <h3 className="text-center py-3">My Wishlist({wish.length})</h3>
           <div className="py-3">
-            <Link to="/products" className="btn btn-secondary">
+            <Link to="/products" className="btn text-light" style={{backgroundColor: "#121932"}}>
               Back
             </Link>
           </div>
@@ -53,13 +53,15 @@ const WishList = () => {
                   <div className="card-body">
                     <p className="card-text">₹{item.price}</p>
                     <button
-                      className="btn btn-primary w-100"
+                      className="btn text-light w-100"
+                      style={{backgroundColor: "#121932"}}
                       onClick={() => handleAdd(item)}
                     >
                       Move To Cart
                     </button>
                     <button
-                      className="btn btn-secondary w-100 mt-2"
+                      className="btn text-light w-100 mt-2"
+                      style={{backgroundColor: "#121932"}}
                       onClick={() => handleRemove(item._id)}
                     >
                       Remove From Wishlist
@@ -75,7 +77,7 @@ const WishList = () => {
           <p className="display-5">
             <strong>Wishlist is Empty</strong>
           </p>
-          <Link to="/products" className="btn btn-primary my-3">
+          <Link to="/products" className="btn text-light my-3" style={{backgroundColor: "#121932"}}>
             Explore Products
           </Link>
         </div>

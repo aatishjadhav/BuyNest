@@ -5,12 +5,7 @@ import { BASE_URL } from "../config";
 export const fetchProducts = createAsyncThunk(
   "/products/fetchProducts",
   async () => {
-    const token = localStorage.getItem("token");
-    const response = await axios.get(`${BASE_URL}/products`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${BASE_URL}/products`);
     console.log("response from redux toolkit", response);
     return response.data;
   }
@@ -19,12 +14,9 @@ export const fetchProducts = createAsyncThunk(
 export const fetchByCategory = createAsyncThunk(
   "/products/fetchByCategory",
   async (category) => {
-    const token = localStorage.getItem("token");
-    const response = await axios.get(`${BASE_URL}/products/categories/${category}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/products/categories/${category}`
+    );
     console.log("response from redux toolkit", response);
 
     return response.data;
@@ -93,8 +85,7 @@ export const productsSlice = createSlice({
       };
       state.searchQuery = "";
       state.filteredProducts = state.products;
-    }
-    
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {

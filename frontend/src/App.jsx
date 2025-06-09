@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import Header from "./components/Header";
 import Products from "./pages/Products";
 import Home from "./pages/Home";
@@ -16,6 +17,18 @@ function App() {
   const location = useLocation();
   return (
     <>
+       <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 2000,
+            style: {
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              background: "linear-gradient(90deg, #253053 31%, #079E83 100%)",
+              color: "#fff",
+            },
+          }}
+        />
        {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />

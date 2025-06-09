@@ -8,18 +8,26 @@ import {
   filterProducts,
   setFilters,
 } from "../slices/productsSlice";
-import { FaRegHeart, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
+import {
+  FaRegHeart,
+  FaStar,
+  FaRegStar,
+  FaStarHalfAlt,
+  FaHeart,
+} from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Link, useParams } from "react-router-dom";
 import { addToCart } from "../slices/cartSlice";
 import { useNavigate } from "react-router-dom";
-import { addToWishlist } from "../slices/wishSlice";
+import { addToWishlist, removeFromWishlist } from "../slices/wishSlice";
 import Pagination from "../components/Pagination";
 
 const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { cart } = useSelector((state) => state.cart);
+  const { wish } = useSelector((state) => state.wish);
+  const user = useSelector((state) => state.auth.user);
   const { category } = useParams();
 
   const { filteredProducts, status, error, filters } = useSelector(
@@ -42,17 +50,35 @@ const Products = () => {
   }, [dispatch, category]);
 
   const handleAdd = (product) => {
+      if (!user) {
+    toast.error("You must be logged in to add items to the cart.");
+    navigate("/login");
+    return;
+  }
+
     dispatch(addToCart(product));
-    navigate("/cart");
     toast.success("Product added to cart.");
   };
 
   const handleAddToWishlist = (e, product) => {
     e.stopPropagation(); // Prevent event bubbling
 
-    dispatch(addToWishlist(product));
-    navigate("/wishlist");
-    toast.info("Product added to wishlist.");
+      if (!user) {
+    toast.error("You must be logged in to add items to the cart.");
+    navigate("/login");
+    return;
+  }
+
+
+    const isWishlisted = wish.some((item) => item._id === product._id);
+
+    if (isWishlisted) {
+      dispatch(removeFromWishlist(product._id));
+      toast.warn("Removed from wishlist.");
+    } else {
+      dispatch(addToWishlist(product));
+      toast.info("Added to wishlist.");
+    }
   };
 
   const handleRatingChange = (event) => {
@@ -107,7 +133,7 @@ const Products = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="row">
         <div className="col-md-3 col-lg-2 bg-white p-4 nscroll">
           <h5 className="fw-bold">
@@ -280,7 +306,7 @@ const Products = () => {
           ) : (
             <div className="row g-4">
               {paginatedProducts.map((product, index) => (
-                <div className="col-md-4 mb-3" key={index}>
+                <div className="col-md-3 mb-3" key={index}>
                   <div className="card">
                     <div style={{ backgroundColor: "light", padding: "20px" }}>
                       <img
@@ -303,7 +329,11 @@ const Products = () => {
                         onClick={(e) => handleAddToWishlist(e, product)}
                         className="btn rounded-circle"
                         style={{
-                          backgroundColor: "rgba(255, 255, 255, 0.8)",
+                          backgroundColor: wish.some(
+                            (item) => item._id === product._id
+                          )
+                            ? "rgba(255, 255, 255, 0.8)"
+                            : "rgba(255, 255, 255, 0.8)",
                           width: "40px",
                           height: "40px",
                           display: "flex",
@@ -313,7 +343,11 @@ const Products = () => {
                           pointerEvents: "auto",
                         }}
                       >
-                        <FaRegHeart size={20} />
+                        {wish.some((item) => item._id === product._id) ? (
+                          <FaHeart size={20} color="red" />
+                        ) : (
+                          <FaRegHeart size={20} color="black" />
+                        )}
                       </button>
                     </div>
 
@@ -336,12 +370,24 @@ const Products = () => {
                           {renderStars(product.rating)}
                         </div>
                       </div>
-                      <button
-                        className="btn btn-primary w-100"
-                        onClick={() => handleAdd(product)}
-                      >
-                        Add to Cart
-                      </button>
+
+                      {cart.some((item) => item._id === product._id) ? (
+                        <button
+                          className="btn w-100 text-light"
+                          style={{ backgroundColor: "#121932" }}
+                          onClick={() => navigate("/cart")}
+                        >
+                          Go to Cart
+                        </button>
+                      ) : (
+                        <button
+                          className="btn text-light w-100"
+                          style={{ backgroundColor: "#121932" }}
+                          onClick={() => handleAdd(product)}
+                        >
+                          Add to Cart
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

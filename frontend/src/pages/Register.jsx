@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../slices/authSlice";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const dispatch = useDispatch();

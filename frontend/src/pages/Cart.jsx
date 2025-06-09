@@ -67,7 +67,7 @@ const Cart = () => {
         <>
           <h3 className="text-center">My Cart ({cart.length})</h3>
           <div className="py-1">
-            <Link to="/products" className="btn btn-secondary">
+            <Link to="/products" className="btn text-light" style={{backgroundColor: "#121932"}}>
               Back
             </Link>
           </div>
@@ -133,18 +133,22 @@ const Cart = () => {
                                 +
                               </button>
                             </p>
+                            <div className="d-flex gap-3">
                             <button
-                              className="btn btn-warning w-100"
+                                className="btn w-100 text-light"
+                                style={{backgroundColor: "#121932"}}
                               onClick={() => handleRemove(item._id)}
                             >
                               Remove From Cart
                             </button>
                             <button
-                              className="btn btn-warning w-100 mt-3"
+                                className="btn w-100 text-light"
+                                style={{backgroundColor: "#121932"}}
                               onClick={() => handleAdd(item)}
                             >
-                              Move To Wishlist
-                            </button>
+                              Add To Wishlist
+                              </button>
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -191,7 +195,8 @@ const Cart = () => {
                       You will save ₹{discountedPrice.toFixed(0)} on this order
                     </span>
                     <button
-                      className="btn btn-primary w-100 mt-3"
+                      className="btn text-light w-100 mt-3"
+                      style={{backgroundColor: "#121932"}}
                       onClick={placeOrder}
                     >
                       Place Order
@@ -207,7 +212,7 @@ const Cart = () => {
           <p className="display-5">
             <strong>Cart is Empty</strong>
           </p>
-          <Link to="/products" className="btn btn-primary my-3">
+          <Link to="/products" className="btn text-light my-3" style={{backgroundColor: "#121932"}}>
             Explore Products
           </Link>
         </div>

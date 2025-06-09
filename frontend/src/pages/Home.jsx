@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="">
         <Carousal />
         <div className="text-center py-5 container">
           <h2>Categories</h2>

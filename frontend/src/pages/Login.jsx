@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { loginUser } from "../slices/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +30,8 @@ const Login = () => {
     };
 
     try {
-      await dispatch(loginUser(guestCredentials)).unwrap();
-      toast.success("Logged in as Guest!");
+      const getUser = await dispatch(loginUser(guestCredentials)).unwrap();
+      toast.success(`Welcome ${getUser.user.name}`);
       navigate("/user/profile");
     } catch (error) {
       toast.error("Guest login failed!");

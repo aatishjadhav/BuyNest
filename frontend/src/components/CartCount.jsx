@@ -22,7 +22,7 @@ const CartCount = () => {
             </span>
           )}
         </div>
-        <span className="mx-2 fw-bold">Cart</span>
+        <span className="mx-2 fw-bold"></span>
       </Link>
     </div>
   );
