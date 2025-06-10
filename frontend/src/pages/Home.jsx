@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchByCategory } from "../slices/productsSlice";
 import { useDispatch } from "react-redux";
 import Carousal from "../components/Carousal";
+import BannerSlider from "../components/BannerSlider";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,8 @@ const Home = () => {
   return (
     <>
       <div className="">
-        <Carousal />
+        {/* <Carousal /> */}
+        <BannerSlider/>
         <div className="text-center py-5 container">
           <h2>Categories</h2>
           <div className="row py-3 rounded">
