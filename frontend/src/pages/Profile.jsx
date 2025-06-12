@@ -2,20 +2,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../slices/authSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import MainProfile from "./MainProfile";
+import { useEffect, useRef } from "react";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
 
+const loggedOutManually = useRef(false);
+const hasShownToast = useRef(false); 
+
+useEffect(() => {
+  if (!user && !loggedOutManually.current && !hasShownToast.current) {
+    hasShownToast.current = true; 
+    toast.error("You must be logged in to view your profile.");
+    navigate("/login");
+  }
+}, [user, navigate]);
+
   const handleLogout = () => {
+    loggedOutManually.current = true; 
     dispatch(logout());
-    toast.success("Logout successfull!");
+    toast.success("Logout successful!");
     navigate("/");
   };
-
   return (
     <div>
       <MainProfile />
