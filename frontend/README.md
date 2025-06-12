@@ -1,12 +1,94 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+# **BUYNEST**  
+🛍️🏠 *Style your life with **BUYNEST**!* 🛍️🏠  
+ <hr/>
+<p >
+<span> 🛒✨ BUYNEST is your ultimate online shopping destination! 🛒✨  </span>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Explore the latest collections and trendsetting styles to upgrade your everyday look.  
+Whether it's comfy casuals, chic formals, or the perfect accessories, **BUYNEST** brings everything under one roof.  
 
-## Expanding the ESLint configuration
+</p>
+</div>
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+## Demo Link
+
+[Live Demo] (https://buynest-frontend-olive.vercel.app/)
+
+---
+
+## Login
+
+> **Guest** <br>
+> Username: `john@gmail.com` <br>
+> Password: `john@123`
+
+---
+## Quick Start
+
+```
+git clone https://github.com/aatishjadhav/BuyNest.git
+cd BuyNest
+npm install
+npm run dev
+
+```
+
+---
+
+## Technologies
+- ⚛️ React JS
+- 🚦 React Router 
+- 🔄 Redux Toolkit
+- 🎨 Vanilla CSS 
+- 🎀 Bootstrap  
+- 🟩 Node.js  
+- 🚂 Express.js  
+- 🔐 JWT (JSON Web Token)  
+- 🗃️ Git For Version Control
+- 🌐 Vercel for Deployment
+
+---
+
+### 🧩 Features
+- 🏠 **Landing Page**  
+  The homepage showcasing a brief intro to BuyNest with navigation to key sections. 
+
+- 🛍️ **Product Listing Page**  
+  Displays all available products with filtering and sorting functionality.
+
+- 🔐 **Authentication Pages (Login, Signup, Logout)**  
+  Secure user access with account creation, login, and logout features.
+
+- 📦 **Single Product Page**  
+  Detailed view of a specific product including images, price, description, and add-to-cart option.
+
+- 🛒 **Cart Management Page**  
+  View and manage items added to the shopping cart before checkout.
+
+- ❤️ **Wishlist Management Page**  
+  Allows users to save products they love and want to revisit later.
+
+- 💳 **Checkout Page**  
+  Facilitates order summary, address entry, and payment process.
+
+- 👤 **Profile Page**  
+  Users can view and manage their account details and order history.
+
+---
+
+## Demo Video
+Watch a walkthrough (5-7 minutes) <br>
+[Loom Video] ()
+
+---
+
+
+
+
+
+
+
