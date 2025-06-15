@@ -16,7 +16,7 @@ Whether it's comfy casuals, chic formals, or the perfect accessories, **BUYNEST*
 ---
 ## Demo Link
 
-[Live Demo](https://buynest-frontend-olive.vercel.app/)
+[Live Demo](https://buynest-frontend-olive.vercel.app/) 🚀
 
 ---
 
