@@ -107,7 +107,7 @@ const Footer = () => {
           </div>
         </div>
         <p className="text-center">
-          &copy; 2025 Ecoomerce Inc. All rights reserved by Atish Jadhav.
+          &copy; 2025 Ecommerce Inc. All rights reserved by Atish Jadhav.
         </p>
       </div>
     </footer>
