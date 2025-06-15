@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearFilters,
@@ -14,6 +13,7 @@ import {
   FaRegStar,
   FaStarHalfAlt,
   FaHeart,
+  FaShoppingCart,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Link, useParams } from "react-router-dom";
@@ -21,6 +21,7 @@ import { addToCart } from "../slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { addToWishlist, removeFromWishlist } from "../slices/wishSlice";
 import Pagination from "../components/Pagination";
+import FilterSidebar from "../components/Filters";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Products = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [productPerPage, setProductPerPage] = useState(4);
+  const [productPerPage, setProductPerPage] = useState(8);
 
   const lastIndex = currentPage * productPerPage;
   const firstIndex = lastIndex - productPerPage;
@@ -50,11 +51,11 @@ const Products = () => {
   }, [dispatch, category]);
 
   const handleAdd = (product) => {
-      if (!user) {
-    toast.error("You must be logged in to add items to the cart.");
-    navigate("/login");
-    return;
-  }
+    if (!user) {
+      toast.error("You must be logged in to add items to the cart.");
+      navigate("/login");
+      return;
+    }
 
     dispatch(addToCart(product));
     toast.success("Product added to cart.");
@@ -63,12 +64,11 @@ const Products = () => {
   const handleAddToWishlist = (e, product) => {
     e.stopPropagation(); // Prevent event bubbling
 
-      if (!user) {
-    toast.error("You must be logged in to add items to the cart.");
-    navigate("/login");
-    return;
-  }
-
+    if (!user) {
+      toast.error("You must be logged in to add items to the cart.");
+      navigate("/login");
+      return;
+    }
 
     const isWishlisted = wish.some((item) => item._id === product._id);
 
@@ -135,180 +135,32 @@ const Products = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3 col-lg-2 bg-white p-4 nscroll">
-          <h5 className="fw-bold">
-            Filters{" "}
-            <span
-              className="text-primary float-end"
-              style={{ cursor: "pointer" }}
-              onClick={() => dispatch(clearFilters())}
-            >
-              Clear
-            </span>
-          </h5>
-
-          {/* Price Slider */}
-          <div className="mb-4">
-            <h6>Price</h6>
-
-            {/* Price Labels */}
-            <div className="d-flex justify-content-between px-2">
-              {[0, 2000, 4000, 6000, 8000].map((price) => (
-                <span key={price} className="small">
-                  {price / 1000}k
-                </span>
-              ))}
-            </div>
-
-            {/* Price Slider */}
-            <input
-              type="range"
-              className="form-range"
-              min="0"
-              max="8000"
-              step="2000"
-              value={filters.maxPrice}
-              onChange={handlePriceChange}
-            />
-
-            {/* Selected Price Display */}
-            <p>Up to ₹{filters.maxPrice.toLocaleString()}</p>
-          </div>
-
-          {/* Category */}
-          <div className="mb-4">
-            <h6>Category</h6>
-
-            <div className="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="category"
-                  value="mens"
-                  checked={filters.category.includes("mens")}
-                  onChange={handleCategory}
-                />{" "}
-                Men's
-              </label>
-            </div>
-            <div className="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="category"
-                  value="womens"
-                  checked={filters.category.includes("womens")}
-                  onChange={handleCategory}
-                />{" "}
-                Women's
-              </label>
-            </div>
-            <div className="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="category"
-                  value="Kids"
-                  checked={filters.category.includes("Kids")}
-                  onChange={handleCategory}
-                />{" "}
-                Kids
-              </label>
-            </div>
-            <div className="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="category"
-                  value="Electronics"
-                  checked={filters.category.includes("Electronics")}
-                  onChange={handleCategory}
-                />{" "}
-                Electronics
-              </label>
-            </div>
-          </div>
-
-          {/* Rating */}
-          <div className="mb-4">
-            <h6>Rating</h6>
-            {[
-              "4 Stars & above",
-              "3 Stars & above",
-              "2 Stars & above",
-              "1 Star & above",
-            ].map((rating, index) => (
-              <div className="form-check" key={index}>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="rating"
-                  id={`rating${index}`}
-                  value={5 - index}
-                  onChange={handleRatingChange}
-                  checked={filters.rating === 5 - index}
-                />
-                <label className="form-check-label" htmlFor={`rating${index}`}>
-                  {rating}
-                </label>
-              </div>
-            ))}
-          </div>
-
-          {/* Sort By */}
-          <div>
-            <h6>Sort by</h6>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="sort"
-                id="sort1"
-                checked={filters.sortBy === "lowToHigh"}
-                onChange={() => handleSort("lowToHigh")}
-              />
-              <label className="form-check-label" htmlFor="sort1">
-                Price - Low to High
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="sort"
-                id="sort2"
-                checked={filters.sortBy === "highToLow"}
-                onChange={() => handleSort("highToLow")}
-              />
-              <label className="form-check-label" htmlFor="sort2">
-                Price - High to Low
-              </label>
-            </div>
-          </div>
-        </div>
+        <FilterSidebar
+          filters={filters}
+          handlePriceChange={handlePriceChange}
+          handleCategory={handleCategory}
+          handleRatingChange={handleRatingChange}
+          handleSort={handleSort}
+          dispatch={dispatch}
+          clearFilters={clearFilters}
+        />
         <div className="col-md-9 col-lg-10 bg-light">
-          <h5 className="fw-bold my-3">
-            Showing All Products ({paginatedProducts.length})
-          </h5>
-          {category && <h6>{category} Products</h6>}
           {error && <p>{error}</p>}
           {status === "loading" ? (
-            <DotLottieReact
-              className="h-[200px]"
-              src="https://lottie.host/6ed95052-d3f3-46b4-9659-ffc7e08449cd/wwZcBFAmDs.lottie"
-              loop
-              autoplay
-            />
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "70vh" }}
+            >
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
           ) : (
-            <div className="row g-4">
-              {paginatedProducts.map((product, index) => (
-                <div className="col-md-3 mb-3" key={index}>
-                  <div className="card">
-                    <div style={{ backgroundColor: "light", padding: "20px" }}>
+            <div className="row">
+              {paginatedProducts?.map((product, index) => (
+                <div className="col-md-3 mb-3 mt-3" key={index}>
+                  <div className="card h-100">
+                    <div style={{ backgroundColor: "light", padding: "4px" }}>
                       <img
                         src={product.imgUrl}
                         className="img-fluid"
@@ -329,11 +181,7 @@ const Products = () => {
                         onClick={(e) => handleAddToWishlist(e, product)}
                         className="btn rounded-circle"
                         style={{
-                          backgroundColor: wish.some(
-                            (item) => item._id === product._id
-                          )
-                            ? "rgba(255, 255, 255, 0.8)"
-                            : "rgba(255, 255, 255, 0.8)",
+                          backgroundColor: "rgba(255, 255, 255, 0.8)",
                           width: "40px",
                           height: "40px",
                           display: "flex",
@@ -343,7 +191,7 @@ const Products = () => {
                           pointerEvents: "auto",
                         }}
                       >
-                        {wish.some((item) => item._id === product._id) ? (
+                        {wish?.some((item) => item?._id === product?._id) ? (
                           <FaHeart size={20} color="red" />
                         ) : (
                           <FaRegHeart size={20} color="black" />
@@ -351,41 +199,58 @@ const Products = () => {
                       </button>
                     </div>
 
-                    <div className="card-body text-center">
+                    <div className="card-body p-2 d-flex flex-column justify-content-between">
                       <Link
                         to={`/products/${product._id}`}
                         style={{ textDecoration: "none", color: "black" }}
                       >
-                        <h6 className="fw-bold">{product.name}</h6>
-                      </Link>
-                      <Link
-                        to={`/products/${product._id}`}
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <p className="fw-bold">₹{product.price}</p>
-                      </Link>
-                      <div className="d-flex align-items-center justify-content-center mb-2">
-                        <p className="mb-0 me-2">{product.rating}</p>
-                        <div className="d-flex">
-                          {renderStars(product.rating)}
+                        <h6 className="fw-bold mb-1">{product.name}</h6>
+                        <div className="d-flex align-items-center">
+                          <p className="mb-0 me-2">{product.rating}</p>
+                          <div className="d-flex">
+                            {renderStars(product.rating)}
+                          </div>
                         </div>
-                      </div>
+                        <small
+                          className="fw-semibold"
+                          style={{ color: "#7685ab" }}
+                        >
+                          {product.description.slice(0, 40)}...
+                        </small>
+                        <div className="d-flex gap-2 py-1">
+                          <h6 className="mb-0">₹{product.price}</h6>
+                          <h6
+                            className="text-decoration-line-through text-muted"
+                            style={{ color: "#7685ab" }}
+                          >
+                            ₹{product.originalPrice}
+                          </h6>
+                        </div>
+                      </Link>
 
-                      {cart.some((item) => item._id === product._id) ? (
+                      {cart.some((item) => item?._id === product?._id) ? (
                         <button
-                          className="btn w-100 text-light"
+                          className="btn w-100 text-light fw-bold"
                           style={{ backgroundColor: "#121932" }}
                           onClick={() => navigate("/cart")}
                         >
-                          Go to Cart
+                          <FaShoppingCart
+                            style={{ marginRight: "8px" }}
+                            size={22}
+                          />
+                          Go To Cart
                         </button>
                       ) : (
                         <button
-                          className="btn text-light w-100"
+                          className="btn w-100 text-light fw-bold"
                           style={{ backgroundColor: "#121932" }}
                           onClick={() => handleAdd(product)}
                         >
-                          Add to Cart
+                          <FaShoppingCart
+                            style={{ marginRight: "8px" }}
+                            size={22}
+                          />
+                          Add To Cart
                         </button>
                       )}
                     </div>

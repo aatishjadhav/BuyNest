@@ -6,7 +6,6 @@ import { fetchOrders } from "../slices/orderSlice";
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, status, error } = useSelector((state) => state.orders);
-  console.log("orders", orders);
 
   useEffect(() => {
     dispatch(fetchOrders());
@@ -44,7 +43,7 @@ const Orders = () => {
                         {order?.items?.map((item, idx) => (
                           <li key={idx}>
                             <p>
-                              {item.productId.name} - Quantity: {item.quantity}
+                              {item?.productId?.name} - Quantity: {item?.quantity}
                             </p>
                           </li>
                         ))}

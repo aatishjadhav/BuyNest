@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
-import Header from "./components/Header";
+import Header from "./components/Navbar/Header";
 import Products from "./pages/Products";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Address from "./pages/Addresss";
 import Orders from "./pages/Orders";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const location = useLocation();
@@ -29,7 +30,7 @@ function App() {
             },
           }}
         />
-       {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
+       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
@@ -43,6 +44,7 @@ function App() {
         <Route path="/user/address" element={<Address />} />
         <Route path="/user/orders" element={<Orders />} />
       </Routes>
+      <Footer/>
 
       <ToastContainer position="bottom-right" autoClose={3000} />
     </>

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Men's", "Women's", "Kids", "Electronics"], 
+    enum: ["Men's", "Women's", "Kids", "Electronics"],
     required: true,
   },
   description: {
@@ -41,40 +41,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  quantity: {
-    type: Number,
-    required: true,
+  tags: {
+    type: [String], 
+    default: [],
   },
-  size: [
-    {
-      type: String,
-      enum: ["S", "M", "XL", "XXL"],
-    },
-  ],
-
-  refundPolicy: {
-    type: String,
-    default: "10 days Refundable",
-  },
-  paymentOptions: {
-    payOnDelivery: {
-      type: Boolean,
-      default: true,
-    },
-    freeDelivery: {
-      type: Boolean,
-      default: true,
-    },
-    securePayment: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  }
 });
 
 const Product = mongoose.model("Product", productSchema);

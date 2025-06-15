@@ -1,9 +1,10 @@
-import Footer from "../components/Footer";
+import Footer from "../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import { fetchByCategory } from "../slices/productsSlice";
 import { useDispatch } from "react-redux";
-import Carousal from "../components/Carousal";
 import BannerSlider from "../components/BannerSlider";
+import heroImg1 from "../assets/young-man-model-posing-street.jpg";
+import heroImg3 from "../assets/portrait-teenagers-posing-wearing-sunglasses.jpg";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -17,99 +18,139 @@ const Home = () => {
   return (
     <>
       <div className="">
-        {/* <Carousal /> */}
-        <BannerSlider/>
-        <div className="text-center py-5 container">
-          <h2>Categories</h2>
-          <div className="row py-3 rounded">
-            <div
-              className="col-md-3 mb-3"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleCategoryClick("mens")}
-            >
+        <BannerSlider />
+
+        <div className="container py-5">
+          <h2 className="text-center fw-bold">CATEGORIES</h2>
+          <p className="text-center fst-italic">
+            We find the best suppliers and makers of fashion and fancy products.
+          </p>
+
+          <div className="row g-3">
+            {/* MENS */}
+            <div className="col-md-6">
               <div
-                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                className="position-relative w-100 h-100 rounded"
                 style={{
-                  height: "310px",
-                  backgroundImage:
-                    "url('https://plus.unsplash.com/premium_photo-1687914904404-b683856ae25c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fG1lbnN8ZW58MHx8MHx8fDA%3D')",
+                  height: "100%",
+                  minHeight: "636px",
+                  backgroundImage: `url(${heroImg1})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  borderRadius: "12px",
                 }}
               >
-                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
-                  Men
-                </h4>
+                <div className="position-absolute bottom-0 start-50 translate-middle-x text-center text-white w-100 pb-3">
+                  <h3 className="fw-bold">MENS</h3>
+                  <button
+                    onClick={() => handleCategoryClick("Men's")}
+                    className="btn mt-2 fw-bold"
+                    style={{
+                      backgroundColor: "#fff",
+                      borderRadius: "999px",
+                      padding: "10px 26px",
+                      color: "black",
+                      transition: "all 0.3s ease-in-out",
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = "#fff";
+                      e.target.style.color = "#000";
+                      e.target.style.border = "1px solid #000";
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = "#121932";
+                      e.target.style.color = "#fff";
+                      e.target.style.border = "none";
+                    }}
+                  >
+                    SHOP NOW
+                  </button>
+                </div>
               </div>
             </div>
-            <div
-              className="col-md-3 mb-3"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleCategoryClick("womens")}
-            >
+
+            {/* Right side: WOMENS and KIDS */}
+            <div className="col-md-6 d-flex flex-column gap-3">
+              {/* WOMENS */}
               <div
-                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                className="position-relative rounded flex-grow-1"
                 style={{
-                  height: "310px",
                   backgroundImage:
-                    "url('https://images.unsplash.com/photo-1607748851687-ba9a10438621?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d29tZW5zfGVufDB8fDB8fHww')",
+                    "url('https://img.freepik.com/free-photo/fashionable-woman-brown-coat-beige-hat-posing_273443-3773.jpg?uid=R191965247&ga=GA1.1.1972545887.1742204657&semt=ais_hybrid&w=740')",
                   backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: "12px",
+                  backgroundPosition: "top center",
+                  minHeight: "310px",
                 }}
               >
-                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
-                  Women
-                </h4>
+                <div className="position-absolute bottom-0 start-50 translate-middle-x text-center text-white w-100 pb-3">
+                  <h3 className="fw-bold">WOMENS</h3>
+                  <button
+                    onClick={() => handleCategoryClick("Women's")}
+                    className="btn mt-2 fw-bold"
+                    style={{
+                      backgroundColor: "#fff",
+                      borderRadius: "999px",
+                      padding: "10px 26px",
+                      color: "black",
+                      transition: "all 0.3s ease-in-out",
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = "#fff";
+                      e.target.style.color = "#000";
+                      e.target.style.border = "1px solid #000";
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = "#121932";
+                      e.target.style.color = "#fff";
+                      e.target.style.border = "none";
+                    }}
+                  >
+                    SHOP NOW
+                  </button>
+                </div>
               </div>
-            </div>
-            <div
-              className="col-md-3 mb-3"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleCategoryClick("Kids")}
-            >
+
+              {/* KIDS */}
               <div
-                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
+                className="position-relative rounded flex-grow-1"
                 style={{
-                  height: "310px",
-                  backgroundImage:
-                    "url('https://plus.unsplash.com/premium_photo-1691367782367-2bd37f646abc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fGtpZHMlMjBjbG90aGVzfGVufDB8fDB8fHww')",
+                  backgroundImage: `url(${heroImg3})`,
                   backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: "12px",
+                  backgroundPosition: "top center",
+                  minHeight: "310px",
                 }}
               >
-                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
-                  Kids
-                </h4>
-              </div>
-            </div>
-            <div
-              className="col-md-3 mb-3"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleCategoryClick("Electronics")}
-            >
-              <div
-                className="bg-light rounded text-white d-flex align-items-center justify-content-center"
-                style={{
-                  height: "310px",
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZWxlY3Ryb25pY3N8ZW58MHx8MHx8fDA%3D')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: "12px",
-                }}
-              >
-                <h4 className="bg-dark bg-opacity-50 w-100 text-center py-2 m-0">
-                  Electronics
-                </h4>
+                <div className="position-absolute bottom-0 start-50 translate-middle-x text-center text-white w-100 pb-3">
+                  <h3 className="fw-bold">KIDS</h3>
+                  <button
+                    onClick={() => handleCategoryClick("Kids")}
+                    className="btn mt-2 fw-bold"
+                    style={{
+                      backgroundColor: "#fff",
+                      borderRadius: "999px",
+                      padding: "10px 26px",
+                      color: "black",
+                      transition: "all 0.3s ease-in-out",
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = "#fff";
+                      e.target.style.color = "#000";
+                      e.target.style.border = "1px solid #000";
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = "#121932";
+                      e.target.style.color = "#fff";
+                      e.target.style.border = "none";
+                    }}
+                  >
+                    SHOP NOW
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 };

@@ -10,7 +10,6 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cart } = useSelector((state) => state.cart);
-  console.log("cart data", cart);
 
   const calculatedPrice = cart.reduce(
     (acc, curr) => acc + curr.price * curr.quantity,
@@ -27,30 +26,27 @@ const Cart = () => {
 
   const handleAdd = (item) => {
     dispatch(addToWishlist(item));
-    dispatch(removeFromCart(item._id));
-    navigate("/wishlist");
-    toast.success("Product Moved to wishlist");
+    toast.success(`${item.name} Moved to wishlist`);
   };
 
   const handleRemove = (itemId) => {
     dispatch(removeFromCart(itemId));
-    toast.warning("Product removed from cart.");
+    toast.warning("Item removed from cart.");
   };
-  
+
   const placeOrder = async () => {
     const orderItems = cart.map((item) => ({
-      productId: item._id,
+      cartId: item._id,
       quantity: item.quantity,
     }));
-  
+
     const orderData = {
       items: orderItems,
-      total: totalAmount
+      total: totalAmount,
     };
-   console.log("order data", orderData);
-   
+
     try {
-      await dispatch(addNewOrder(orderData)).unwrap(); 
+      await dispatch(addNewOrder(orderData)).unwrap();
       toast.success("Order placed successfully!");
       dispatch(clearCart());
       navigate("/user/orders");
@@ -59,98 +55,79 @@ const Cart = () => {
       console.error("Order placement error:", error);
     }
   };
-  
 
   return (
-    <div className="container py-3">
+    <div className="container py-4">
       {cart.length > 0 ? (
         <>
-          <h3 className="text-center">My Cart ({cart.length})</h3>
-          <div className="py-1">
-            <Link to="/products" className="btn text-light" style={{backgroundColor: "#121932"}}>
-              Back
-            </Link>
-          </div>
-          <div className="row">
-            {/* Left Side: Cart Items */}
-            <div className="col-md-8">
+          <h3 className="text-center mb-3">My Cart ({cart.length})</h3>
+          <div className="row justify-content-center">
+            <div className="col-md-7">
               {cart.map((item, index) => (
-                <div className="row py-3" key={index}>
-                  <div className="col-md-12">
-                    <div className="card mb-1">
-                      <div className="row g-0">
-                        <div className="col-md-4">
-                          <img
-                            src={item.imgUrl}
-                            className="img-fluid rounded-start mt-2"
-                            alt="Product"
-                            style={{
-                              height: "250px",
-                              width: "100%",
-                              objectFit: "contain",
-                            }}
-                          />
-                        </div>
-                        <div className="col-md-8 px-5">
-                          <div className="card-body">
-                            <h5 className="card-title">{item.name}</h5>
-                            <div className="d-flex gap-2">
-                              <p className="card-text">
-                                <b>₹{item.price}</b>
-                              </p>
-                              <span className="text-decoration-line-through">
-                                ₹{item.originalPrice}
-                              </span>
-                            </div>
-                            <span>{item.discount} off</span>
-                            <p>
-                              <b>Quantity: </b>{" "}
-                              <button
-                                onClick={() =>
-                                  dispatch(
-                                    updateQuantity({
-                                      _id: item._id,
-                                      quantity: item.quantity - 1,
-                                    })
-                                  )
-                                }
-                                className="btn btn-sm btn-outline-primary rounded-circle mx-2"
-                              >
-                                -
-                              </button>
-                              {item.quantity}{" "}
-                              <button
-                                onClick={() =>
-                                  dispatch(
-                                    updateQuantity({
-                                      _id: item._id,
-                                      quantity: item.quantity + 1,
-                                    })
-                                  )
-                                }
-                                className="btn btn-sm btn-outline-primary rounded-circle mx-2"
-                              >
-                                +
-                              </button>
-                            </p>
-                            <div className="d-flex gap-3">
-                            <button
-                                className="btn w-100 text-light"
-                                style={{backgroundColor: "#121932"}}
-                              onClick={() => handleRemove(item._id)}
-                            >
-                              Remove From Cart
-                            </button>
-                            <button
-                                className="btn w-100 text-light"
-                                style={{backgroundColor: "#121932"}}
-                              onClick={() => handleAdd(item)}
-                            >
-                              Add To Wishlist
-                              </button>
-                              </div>
-                          </div>
-                        </div>
+                <div className="card shadow-sm p-3 mb-4" key={index}>
+                  <div className="row g-0 align-items-center">
+                    <div className="col-md-3 text-center">
+                      <img
+                        src={item.imgUrl}
+                        className="img-fluid rounded"
+                        alt={item.name}
+                        style={{ height: "180px", objectFit: "cover" }}
+                      />
+                    </div>
+                    <div className="col-md-9 ps-4">
+                      <h5 className="fw-bold mb-1">{item.name}</h5>
+                      <div className="d-flex align-items-center gap-2 mb-2">
+                        <span className="fw-bold text-dark">₹{item.price}</span>
+                        <span className="text-muted text-decoration-line-through">
+                          ₹{item.originalPrice}
+                        </span>
+                      </div>
+
+                      <div className="d-flex align-items-center gap-2 mb-3">
+                        <button
+                          onClick={() =>
+                            dispatch(
+                              updateQuantity({
+                                _id: item._id,
+                                quantity: item.quantity - 1,
+                              })
+                            )
+                          }
+                          className="btn btn-sm btn-outline-secondary"
+                        >
+                          -
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button
+                          onClick={() =>
+                            dispatch(
+                              updateQuantity({
+                                _id: item._id,
+                                quantity: item.quantity + 1,
+                              })
+                            )
+                          }
+                          className="btn btn-sm btn-outline-secondary"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <div className="d-flex gap-3">
+                        <button
+                          className="btn w-50 fw-bold border border-dark text-dark"
+                          style={{ backgroundColor: "transparent" }}
+                          onClick={() => handleAdd(item)}
+                        >
+                          Add To Wishlist
+                        </button>
+                        <button
+                          className="btn w-50 fw-bold text-light"
+                          style={{ backgroundColor: "#121932" }}
+                          onClick={() => handleRemove(item._id)}
+                        >
+                          Remove
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -158,8 +135,8 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* Right Side: Price Details (Moved Outside of .map) */}
-            <div className="col-md-4 mt-3">
+            {/* Right Side: Price Details */}
+            <div className="col-md-4">
               <div className="card container">
                 <div className="card-title">
                   <h5 className="mt-3">PRICE DETAILS</h5>
@@ -182,12 +159,8 @@ const Cart = () => {
                   </div>
                   <hr />
                   <div>
-                    <span>
-                      <b>TOTAL AMOUNT</b>
-                    </span>
-                    <span className="float-end">
-                      <b>₹{totalAmount}</b>
-                    </span>
+                    <b>Total Amount</b>
+                    <span className="float-end fw-bold">₹{totalAmount}</span>
                   </div>
                   <hr />
                   <div>
@@ -195,8 +168,8 @@ const Cart = () => {
                       You will save ₹{discountedPrice.toFixed(0)} on this order
                     </span>
                     <button
-                      className="btn text-light w-100 mt-3"
-                      style={{backgroundColor: "#121932"}}
+                      className="btn text-light w-100 mt-3 fw-bold"
+                      style={{ backgroundColor: "#121932" }}
                       onClick={placeOrder}
                     >
                       Place Order
@@ -212,7 +185,11 @@ const Cart = () => {
           <p className="display-5">
             <strong>Cart is Empty</strong>
           </p>
-          <Link to="/products" className="btn text-light my-3" style={{backgroundColor: "#121932"}}>
+          <Link
+            to="/products"
+            className="btn text-light my-3"
+            style={{ backgroundColor: "#121932" }}
+          >
             Explore Products
           </Link>
         </div>

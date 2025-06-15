@@ -35,10 +35,7 @@ const addProduct = async (req, res) => {
       price,
       originalPrice,
       discount,
-      quantity,
-      size,
-      refundPolicy,
-      paymentOptions,
+      tags
     } = req.body;
     const addNew = new Product({
       name,
@@ -50,10 +47,7 @@ const addProduct = async (req, res) => {
       price,
       originalPrice,
       discount,
-      quantity,
-      size,
-      refundPolicy,
-      paymentOptions,
+      tags,
       createdBy: req.user._id,
     });
     await addNew.save();
@@ -61,6 +55,7 @@ const addProduct = async (req, res) => {
       .status(201)
       .json({ message: "new product added successfully", product: addNew });
   } catch (error) {
+    console.error("Add Product Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
