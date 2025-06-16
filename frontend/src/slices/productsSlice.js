@@ -6,7 +6,6 @@ export const fetchProducts = createAsyncThunk(
   "/products/fetchProducts",
   async () => {
     const response = await axios.get(`${BASE_URL}/products`);
-    console.log("response from redux toolkit", response);
     return response.data;
   }
 );
@@ -17,7 +16,6 @@ export const fetchByCategory = createAsyncThunk(
     const response = await axios.get(
       `${BASE_URL}/products/categories/${category}`
     );
-    console.log("response from redux toolkit", response);
 
     return response.data;
   }

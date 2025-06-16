@@ -5,11 +5,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { updateQuantity } from "../slices/cartSlice";
 import { toast } from "react-toastify";
 import { addNewOrder } from "../slices/orderSlice";
+import CouponModal from "../components/Modals/CouponModal";
+import { useState } from "react";
+import { clearCoupon } from "../slices/couponSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cart } = useSelector((state) => state.cart);
+
+  const [showCouponModal, setShowCouponModal] = useState(false);
+  const { discountAmount, selectedCoupon } = useSelector(
+    (state) => state.coupon
+  );
 
   const calculatedPrice = cart.reduce(
     (acc, curr) => acc + curr.price * curr.quantity,
@@ -22,7 +30,8 @@ const Cart = () => {
   }, 0);
 
   const deliveryCharges = calculatedPrice >= 1000 ? 500 : 0;
-  const totalAmount = calculatedPrice - discountedPrice + deliveryCharges;
+  const totalAmount =
+    calculatedPrice - discountedPrice - discountAmount + deliveryCharges;
 
   const handleAdd = (item) => {
     dispatch(addToWishlist(item));
@@ -43,12 +52,15 @@ const Cart = () => {
     const orderData = {
       items: orderItems,
       total: totalAmount,
+      appliedCoupon: selectedCoupon?.code || null,
+      discount: discountAmount || 0,
     };
 
     try {
       await dispatch(addNewOrder(orderData)).unwrap();
       toast.success("Order placed successfully!");
       dispatch(clearCart());
+      dispatch(clearCoupon());
       navigate("/user/orders");
     } catch (error) {
       toast.error("Failed to place order. Please try again.");
@@ -138,9 +150,24 @@ const Cart = () => {
             {/* Right Side: Price Details */}
             <div className="col-md-4">
               <div className="card container">
-                <div className="card-title">
-                  <h5 className="mt-3">PRICE DETAILS</h5>
-                  <hr />
+                <div className="">
+                  
+                  
+                  {selectedCoupon ? (
+                    <div className="mt-2 text-success">
+                      Coupon Applied: <strong>{selectedCoupon.code}</strong> (₹
+                      {discountAmount} off)
+                    </div>
+                  ) : (
+                    <button
+                      className="btn btn-outline-dark w-100 my-3"
+                      onClick={() => setShowCouponModal(true)}
+                    >
+                      <i className="fas fa-tag mx-2"></i>
+                      Apply Coupon
+                    </button>
+                  )}
+
                   <div>
                     <span>Price ({cart.length} items)</span>
                     <span className="float-end">₹{calculatedPrice}</span>
@@ -179,6 +206,9 @@ const Cart = () => {
               </div>
             </div>
           </div>
+          {showCouponModal && (
+            <CouponModal onClose={() => setShowCouponModal(false)} />
+          )}
         </>
       ) : (
         <div className="text-center py-5">

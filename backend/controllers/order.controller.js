@@ -2,11 +2,12 @@ const Order = require("../models/order.models");
 
 const placeOrder = async (req, res) => {
   try {
-    const { items, total } = req.body;
-    console.log("User ID from token:", req.user.userId);
+    const { items, total, appliedCoupon, discount } = req.body;
     const order = new Order({
       items,
       total,
+      appliedCoupon,
+      discount,
       user: req.user.userId,
     });
 
@@ -27,6 +28,7 @@ const getOrders = async (req, res) => {
 
     res.status(200).json({ orders });
   } catch (error) {
+    console.error("Error getting orders:", error);
     res.status(500).json({ error: "Failed to fetch orders" });
   }
 };

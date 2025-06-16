@@ -26,15 +26,6 @@ export const addNewOrder = createAsyncThunk(
   }
 );
 
-// const loadOrdersFromLocalStorage = () => {
-//   const orders = localStorage.getItem("orders");
-//   return orders ? JSON.parse(orders) : [];
-// };
-
-// const saveOrdersToLocalStorage = (orders) => {
-//   localStorage.setItem("orders", JSON.stringify(orders));
-// };
-
 export const orderSlice = createSlice({
   name: "orders",
   initialState: {
@@ -50,7 +41,6 @@ export const orderSlice = createSlice({
     builder.addCase(fetchOrders.fulfilled, (state, action) => {
       state.status = "success";
       state.orders = action.payload;
-    //   saveOrdersToLocalStorage(action.payload); // Persist orders to local storage
     });
     builder.addCase(fetchOrders.rejected, (state, action) => {
       state.status = "failed";
@@ -62,7 +52,6 @@ export const orderSlice = createSlice({
     builder.addCase(addNewOrder.fulfilled, (state, action) => {
       state.status = "success";
       state.orders.push(action.payload);
-    //   saveOrdersToLocalStorage(state.orders); // Persist updated orders to local storage
     });
     builder.addCase(addNewOrder.rejected, (state, action) => {
       state.status = "failed";

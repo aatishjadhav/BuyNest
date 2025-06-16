@@ -34,16 +34,30 @@ const Orders = () => {
                   <div className="card my-3" key={index}>
                     <div className="card-body">
                       <h5 className="card-title">Order #{order._id}</h5>
-                      <p>
-                        <b>Total Amount:</b> ₹{order.total}
-                      </p>
+
+                      <div>
+                        <p>
+                          <b>Original Price:</b> ₹
+                          {order.total + (order.discount || 0)}
+                        </p>
+                        {order.appliedCoupon && (
+                          <p>
+                            <b>Coupon Applied:</b> {order.appliedCoupon} (-₹
+                            {order.discount})
+                          </p>
+                        )}
+                        <p>
+                          <b>Total Paid:</b> ₹{order.total}
+                        </p>
+                      </div>
 
                       <h6>Items:</h6>
                       <ul>
                         {order?.items?.map((item, idx) => (
                           <li key={idx}>
                             <p>
-                              {item?.productId?.name} - Quantity: {item?.quantity}
+                              {item?.productId?.name} - Quantity:{" "}
+                              {item?.quantity}
                             </p>
                           </li>
                         ))}

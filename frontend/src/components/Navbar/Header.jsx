@@ -11,7 +11,6 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  console.log("User Data:", JSON.stringify(user, null, 2));
 
   const handleSearch = (e) => {
     e.preventDefault();
