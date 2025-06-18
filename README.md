@@ -80,12 +80,11 @@ npm run dev
 
 ---
 
-## Demo Video
-Watch a walkthrough (5-7 minutes) <br>
-[Loom Video] ()
+## 📽️ Demo Video
 
+Watch a quick walkthrough (5–7 minutes) of **BuyNest** in action:
 
----
+🔗 [Watch on Loom]()
 
 
 
