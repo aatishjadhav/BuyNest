@@ -2,14 +2,15 @@ import { addNewOrder } from "../slices/orderSlice";
 import { clearCart } from "../slices/cartSlice";
 import { clearCoupon } from "../slices/couponSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAddress } from "../slices/addressSlice";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { cart } = useSelector((state) => state.cart);
   const { addresses } = useSelector((state) => state.address);
 
@@ -65,6 +66,13 @@ const Checkout = () => {
       console.error("Order placement error:", error);
     }
   };
+  useEffect(() => {
+    if (!location.state?.fromCart) {
+      toast.warning("Add product to cart first");
+      navigate("/cart");
+    }
+  }, [location, navigate]);
+
   useEffect(() => {
     dispatch(fetchAddress());
   }, []);

@@ -168,7 +168,7 @@ const Cart = () => {
                     <button
                       className="btn text-light w-100 mt-3 fw-bold"
                       style={{ backgroundColor: "#121932" }}
-                      onClick={() => navigate("/checkout")}
+                      onClick={() => navigate("/checkout", { state: { fromCart: true } })}
                     >
                       Checkout
                     </button>
