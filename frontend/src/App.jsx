@@ -13,24 +13,25 @@ import Profile from "./pages/Profile";
 import Address from "./pages/Addresss";
 import Orders from "./pages/Orders";
 import Footer from "./components/Footer/Footer";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const location = useLocation();
   return (
     <>
-       <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-              background: "linear-gradient(90deg, #253053 31%, #079E83 100%)",
-              color: "#fff",
-            },
-          }}
-        />
-       <Header />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 2000,
+          style: {
+            fontSize: "1.2rem",
+            fontWeight: "bold",
+            background: "linear-gradient(90deg, #253053 31%, #079E83 100%)",
+            color: "#fff",
+          },
+        }}
+      />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
@@ -43,8 +44,9 @@ function App() {
         <Route path="/user/profile" element={<Profile />} />
         <Route path="/user/address" element={<Address />} />
         <Route path="/user/orders" element={<Orders />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
-      <Footer/>
+      <Footer />
 
       <ToastContainer position="bottom-right" autoClose={3000} />
     </>

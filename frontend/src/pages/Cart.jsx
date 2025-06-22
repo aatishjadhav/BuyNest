@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, removeFromCart } from "../slices/cartSlice";
+import { removeFromCart } from "../slices/cartSlice";
 import { addToWishlist } from "../slices/wishSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { updateQuantity } from "../slices/cartSlice";
 import { toast } from "react-toastify";
-import { addNewOrder } from "../slices/orderSlice";
 import CouponModal from "../components/Modals/CouponModal";
 import { useState } from "react";
-import { clearCoupon } from "../slices/couponSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -41,31 +39,6 @@ const Cart = () => {
   const handleRemove = (itemId) => {
     dispatch(removeFromCart(itemId));
     toast.warning("Item removed from cart.");
-  };
-
-  const placeOrder = async () => {
-    const orderItems = cart.map((item) => ({
-      cartId: item._id,
-      quantity: item.quantity,
-    }));
-
-    const orderData = {
-      items: orderItems,
-      total: totalAmount,
-      appliedCoupon: selectedCoupon?.code || null,
-      discount: discountAmount || 0,
-    };
-
-    try {
-      await dispatch(addNewOrder(orderData)).unwrap();
-      toast.success("Order placed successfully!");
-      dispatch(clearCart());
-      dispatch(clearCoupon());
-      navigate("/user/orders");
-    } catch (error) {
-      toast.error("Failed to place order. Please try again.");
-      console.error("Order placement error:", error);
-    }
   };
 
   return (
@@ -151,8 +124,6 @@ const Cart = () => {
             <div className="col-md-4">
               <div className="card container">
                 <div className="">
-                  
-                  
                   {selectedCoupon ? (
                     <div className="mt-2 text-success">
                       Coupon Applied: <strong>{selectedCoupon.code}</strong> (₹
@@ -197,9 +168,9 @@ const Cart = () => {
                     <button
                       className="btn text-light w-100 mt-3 fw-bold"
                       style={{ backgroundColor: "#121932" }}
-                      onClick={placeOrder}
+                      onClick={() => navigate("/checkout")}
                     >
-                      Place Order
+                      Checkout
                     </button>
                   </div>
                 </div>

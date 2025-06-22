@@ -34,12 +34,29 @@ const Orders = () => {
                   <div className="card my-3" key={index}>
                     <div className="card-body">
                       <h5 className="card-title">Order #{order._id}</h5>
-
+                      {order.address && (
+                        <div className="mb-3">
+                          <h5 className="mb-1">Delivery Address:</h5>
+                          <p className="mb-1">
+                            <b>{order.address.fullName}</b>
+                          </p>
+                          <p className="mb-1">
+                            {order.address.streetAddress},{" "}
+                            {order.address.apartment}, {order.address.city}
+                          </p>
+                          <p className="mb-1">
+                            {order.address.country} - {order.address.postalCode}
+                          </p>
+                          <p className="mb-0">
+                            Phone: {order.address.phoneNumber}
+                          </p>
+                        </div>
+                      )}
                       <div>
-                        <p>
+                        {/* <p>
                           <b>Original Price:</b> ₹
                           {order.total + (order.discount || 0)}
-                        </p>
+                        </p> */}
                         {order.appliedCoupon && (
                           <p>
                             <b>Coupon Applied:</b> {order.appliedCoupon} (-₹
