@@ -17,7 +17,7 @@ const Login = () => {
     try {
       await dispatch(loginUser({ email, password })).unwrap();
       toast.success("Login successful!");
-      navigate("/user/profile");
+      navigate("/");
     } catch (error) {
       toast.error("Invalid credentials!");
     }
@@ -32,7 +32,7 @@ const Login = () => {
     try {
       const getUser = await dispatch(loginUser(guestCredentials)).unwrap();
       toast.success(`Welcome ${getUser.user.name}`);
-      navigate("/user/profile");
+      navigate("/");
     } catch (error) {
       toast.error("Guest login failed!");
     }
