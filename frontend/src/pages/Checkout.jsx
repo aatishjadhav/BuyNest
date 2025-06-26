@@ -39,7 +39,7 @@ const Checkout = () => {
       toast.error("Please select a delivery address");
       return;
     }
-    isPlacingOrder.current = true;
+   
     const orderItems = cart.map((item) => ({
       cartId: item._id,
       quantity: item.quantity,
