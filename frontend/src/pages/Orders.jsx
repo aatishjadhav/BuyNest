@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MainProfile from "./MainProfile";
 import { useEffect } from "react";
 import { fetchOrders } from "../slices/orderSlice";
+import Loader from "../components/Loader";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -18,14 +19,7 @@ const Orders = () => {
       <div className="container py-3">
         <h3 className="text-center">My Orders</h3>
         {status === "loading" ? (
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: "70vh" }}
-          >
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
+          <Loader/>
         ) : (
           <div>
             {orders?.length > 0 ? (

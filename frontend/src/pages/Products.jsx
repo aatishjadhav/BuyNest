@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { addToWishlist, removeFromWishlist } from "../slices/wishSlice";
 import Pagination from "../components/Pagination";
 import FilterSidebar from "../components/Filters";
+import Loader from "../components/Loader";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -147,14 +148,15 @@ const Products = () => {
         <div className="col-md-9 col-lg-10 bg-light">
           {error && <p>{error}</p>}
           {status === "loading" ? (
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ height: "70vh" }}
-            >
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
+            // <div
+            //   className="d-flex justify-content-center align-items-center"
+            //   style={{ height: "70vh" }}
+            // >
+            //   <div className="spinner-border text-primary" role="status">
+            //     <span className="visually-hidden">Loading...</span>
+            //   </div>
+            // </div>
+          <Loader/>
           ) : (
             <div className="row">
               {paginatedProducts?.map((product, index) => (
