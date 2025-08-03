@@ -86,7 +86,7 @@ const Checkout = () => {
     try {
       // Step 1: Call backend to create Razorpay order
       const orderResponse = await axios.post(`${BASE_URL}/payment/create-order`, {
-        amount: totalAmount * 100, // Razorpay expects paisa
+        amount: totalAmount, // Razorpay expects paisa
       });
 
       const { orderId, amount, currency } = orderResponse.data;
