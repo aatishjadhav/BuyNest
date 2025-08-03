@@ -69,6 +69,7 @@ const Orders = () => {
                             <p>
                               {item?.productId?.name} - Quantity:{" "}
                               {item?.quantity}
+                              <b>Order ID:</b> {order.paymentDetails?.razorpay_order_id}
                             </p>
                           </li>
                         ))}

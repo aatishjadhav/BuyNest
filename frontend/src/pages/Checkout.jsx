@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAddress } from "../slices/addressSlice";
 import { toast } from "react-toastify";
+import { loadRazorpayScript } from "../utils/loadRazorpay";
+import axios from "axios";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -13,6 +15,7 @@ const Checkout = () => {
   const location = useLocation();
   const { cart } = useSelector((state) => state.cart);
   const { addresses } = useSelector((state) => state.address);
+  const user = useSelector((state) => state.auth.user);
 
   const { discountAmount, selectedCoupon } = useSelector(
     (state) => state.coupon
@@ -34,36 +37,127 @@ const Checkout = () => {
   const totalAmount =
     calculatedPrice - discountedPrice - discountAmount + deliveryCharges;
 
+  // const placeOrder = async () => {
+  //   if (!selectedAddress) {
+  //     toast.error("Please select a delivery address");
+  //     return;
+  //   }
+
+  //   const orderItems = cart.map((item) => ({
+  //     cartId: item._id,
+  //     quantity: item.quantity,
+  //   }));
+
+  //   const orderData = {
+  //     items: orderItems,
+  //     total: totalAmount,
+  //     appliedCoupon: selectedCoupon?.code || null,
+  //     discount: discountAmount || 0,
+  //     address: selectedAddress,
+  //   };
+
+  //   try {
+  //     await dispatch(addNewOrder(orderData)).unwrap();
+
+  //     dispatch(clearCart());
+  //     dispatch(clearCoupon());
+
+  //     toast.success("Order placed successfully!");
+  //     navigate("/user/orders");
+  //   } catch (error) {
+  //     toast.error("Failed to place order. Please try again.");
+  //     console.error("Order placement error:", error);
+  //   }
+  // };
+
   const placeOrder = async () => {
     if (!selectedAddress) {
       toast.error("Please select a delivery address");
       return;
     }
-   
-    const orderItems = cart.map((item) => ({
-      cartId: item._id,
-      quantity: item.quantity,
-    }));
 
-    const orderData = {
-      items: orderItems,
-      total: totalAmount,
-      appliedCoupon: selectedCoupon?.code || null,
-      discount: discountAmount || 0,
-      address: selectedAddress,
-    };
+    const res = await loadRazorpayScript();
+    if (!res) {
+      toast.error("Razorpay SDK failed to load");
+      return;
+    }
 
     try {
-      await dispatch(addNewOrder(orderData)).unwrap();
+      // Step 1: Call backend to create Razorpay order
+      const orderResponse = await axios.post("/api/payment/create-order", {
+        amount: totalAmount * 100, // Razorpay expects paisa
+      });
 
-      dispatch(clearCart());
-      dispatch(clearCoupon());
+      const { orderId, amount, currency } = orderResponse.data;
 
-      toast.success("Order placed successfully!");
-      navigate("/user/orders");
+      // Step 2: Configure Razorpay options
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount,
+        currency,
+        order_id: orderId,
+        name: "BuyNest Store",
+        description: "Order Payment",
+        handler: async function (response) {
+          try {
+            // Step 1: Verify payment with backend
+            const verifyResponse = await axios.post(
+              "/api/payment/verify-payment",
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }
+            );
+
+            if (verifyResponse.status === 200) {
+              // Step 2: Create order using existing Redux logic
+              const orderItems = cart.map((item) => ({
+                product: item.productId, // or item._id based on your schema
+                quantity: item.quantity,
+                price: item.price,
+              }));
+
+              const orderData = {
+                items: orderItems,
+                total: totalAmount,
+                appliedCoupon: selectedCoupon?.code || null,
+                discount: discountAmount || 0,
+                address: selectedAddress,
+                paymentDetails: {
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                },
+              };
+
+              await dispatch(addNewOrder(orderData)).unwrap();
+
+              dispatch(clearCart());
+              dispatch(clearCoupon());
+
+              toast.success("Payment successful. Order placed.");
+              navigate("/user/orders");
+            }
+          } catch (error) {
+            console.error("Payment verification failed:", error);
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: selectedAddress.fullName,
+          email: user?.email || "demo@example.com",
+          contact: selectedAddress.phoneNumber,
+        },
+        theme: {
+          color: "#121932",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (error) {
-      toast.error("Failed to place order. Please try again.");
-      console.error("Order placement error:", error);
+      console.error("Razorpay error:", error);
+      toast.error("Failed to initiate payment.");
     }
   };
   useEffect(() => {
