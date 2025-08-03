@@ -38,40 +38,8 @@ const Checkout = () => {
   const totalAmount =
     calculatedPrice - discountedPrice - discountAmount + deliveryCharges;
 
-  // const placeOrder = async () => {
-  //   if (!selectedAddress) {
-  //     toast.error("Please select a delivery address");
-  //     return;
-  //   }
-
-  //   const orderItems = cart.map((item) => ({
-  //     cartId: item._id,
-  //     quantity: item.quantity,
-  //   }));
-
-  //   const orderData = {
-  //     items: orderItems,
-  //     total: totalAmount,
-  //     appliedCoupon: selectedCoupon?.code || null,
-  //     discount: discountAmount || 0,
-  //     address: selectedAddress,
-  //   };
-
-  //   try {
-  //     await dispatch(addNewOrder(orderData)).unwrap();
-
-  //     dispatch(clearCart());
-  //     dispatch(clearCoupon());
-
-  //     toast.success("Order placed successfully!");
-  //     navigate("/user/orders");
-  //   } catch (error) {
-  //     toast.error("Failed to place order. Please try again.");
-  //     console.error("Order placement error:", error);
-  //   }
-  // };
-
   const placeOrder = async () => {
+    // This card number should be used for payments:- 4718 6091 0820 4366
     if (!selectedAddress) {
       toast.error("Please select a delivery address");
       return;
@@ -85,9 +53,12 @@ const Checkout = () => {
 
     try {
       // Step 1: Call backend to create Razorpay order
-      const orderResponse = await axios.post(`${BASE_URL}/payment/create-order`, {
-        amount: totalAmount, // Razorpay expects paisa
-      });
+      const orderResponse = await axios.post(
+        `${BASE_URL}/payment/create-order`,
+        {
+          amount: totalAmount,
+        }
+      );
 
       const { orderId, amount, currency } = orderResponse.data;
 
@@ -114,7 +85,7 @@ const Checkout = () => {
             if (verifyResponse.status === 200) {
               // Step 2: Create order using existing Redux logic
               const orderItems = cart.map((item) => ({
-                product: item.productId, // or item._id based on your schema
+                product: item.productId,
                 quantity: item.quantity,
                 price: item.price,
               }));
