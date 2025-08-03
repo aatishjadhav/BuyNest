@@ -8,6 +8,7 @@ import { fetchAddress } from "../slices/addressSlice";
 import { toast } from "react-toastify";
 import { loadRazorpayScript } from "../utils/loadRazorpay";
 import axios from "axios";
+import { BASE_URL } from "../config";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ const Checkout = () => {
 
     try {
       // Step 1: Call backend to create Razorpay order
-      const orderResponse = await axios.post("/api/payment/create-order", {
+      const orderResponse = await axios.post(`${BASE_URL}/api/payment/create-order`, {
         amount: totalAmount * 100, // Razorpay expects paisa
       });
 
@@ -102,7 +103,7 @@ const Checkout = () => {
           try {
             // Step 1: Verify payment with backend
             const verifyResponse = await axios.post(
-              "/api/payment/verify-payment",
+              `${BASE_URL}/api/payment/verify-payment`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
