@@ -8,7 +8,7 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/product.controller");
-const { verifyToken } = require("../middleware/verifyToken");
+const  verifyToken = require("../middleware/verifyToken");
 
 router.get("/", getProducts);
 router.get("/categories/:category", getProductsByCategory);
